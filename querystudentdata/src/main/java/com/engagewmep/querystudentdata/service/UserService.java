@@ -1,7 +1,7 @@
 package com.engagewmep.querystudentdata.service;
 
 import com.engagewmep.querystudentdata.model.Role;
-import com.engagewmep.querystudentdata.model.User;
+import com.engagewmep.querystudentdata.model.UserEntity;
 import com.engagewmep.querystudentdata.repository.RoleRepository;
 import com.engagewmep.querystudentdata.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+        UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User registerNewUser(User user) {
+    public UserEntity registerNewUser(UserEntity user) {
         // Check if user already exists
         userRepository.findByUsername(user.getUsername()).ifPresent(existingUser -> {
             throw new IllegalStateException("Username already taken");
@@ -75,7 +75,7 @@ public class UserService implements UserDetailsService {
 
         // Create an admin user if not exists
         userRepository.findByUsername("admin").orElseGet(() -> {
-            User admin = new User("admin", passwordEncoder.encode("admin123"));
+            UserEntity admin = new UserEntity("admin", passwordEncoder.encode("admin123"));
             Set<Role> adminRoles = new HashSet<>();
             adminRoles.add(adminRole); // Assuming adminRole is now persisted
             admin.setRoles(adminRoles);

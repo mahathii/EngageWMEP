@@ -3,13 +3,15 @@ package com.engagewmep.querystudentdata.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
 @Table(name = "users")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,9 +25,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User() {}
+    public UserEntity() {}
 
-    public User(String username, String password) {
+    public UserEntity(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -73,4 +75,6 @@ public class User {
         roles.remove(role);
         role.getUsers().remove(this);
     }
+
+
 }

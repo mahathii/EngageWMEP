@@ -31,7 +31,8 @@ const LoginSignup = () => {
 		e.preventDefault();
 		try {
 			const response = await axios.post("/api/auth/register", registerData);
-			if (response.data) navigate("/login");
+			console.log(registerData);
+			if (response.data) navigate("/dashboard");
 		} catch (error) {
 			console.error("Registration error:", error);
 		}
