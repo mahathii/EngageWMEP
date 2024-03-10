@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.engagewmep.querystudentdata.Services"})
@@ -17,6 +20,32 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class QuerystudentdataApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuerystudentdataApplication.class, args);
+		testDatabaseConnection();
+	}
+
+	public static void testDatabaseConnection() {
+		String jdbcURL = "jdbc:mysql://localhost:3306/wmep";
+		String username = "root";
+		String password = "Vikasbachi@1";
+
+		Connection connection = null;
+
+		try {
+			// Create a connection to the database
+			System.out.println("Connecting to database...");
+			connection = DriverManager.getConnection(jdbcURL, username, password);
+			System.out.println("Connection successful!");
+		} catch (SQLException e) {
+			System.out.println("Connection failed! Error: " + e.getMessage());
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				System.out.println("Error closing connection! Error: " + e.getMessage());
+			}
+		}
 	}
 
 	@Configuration

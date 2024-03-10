@@ -51,12 +51,19 @@ const LoginSignup = () => {
 		}
 	};
 
-	const handleInputChange = (e) => {
+	const handleInputChange = (e, stateType) => {
 		const { name, value } = e.target;
-		setRegisterData({
-			...registerData,
-			[name]: value,
-		});
+		if (stateType === "register") {
+			setRegisterData((prev) => ({
+				...prev,
+				[name]: value,
+			}));
+		} else if (stateType === "login") {
+			setLoginData((prev) => ({
+				...prev,
+				[name]: value,
+			}));
+		}
 	};
 
 	// Apply the 'active' class based on the state
@@ -76,28 +83,28 @@ const LoginSignup = () => {
 						name="username"
 						placeholder="Username"
 						value={registerData.username}
-						onChange={handleInputChange}
+						onChange={(e) => handleInputChange(e, "register")}
 					/>
 					<input
 						type="email"
 						name="email"
 						placeholder="Email"
 						value={registerData.email}
-						onChange={handleInputChange}
+						onChange={(e) => handleInputChange(e, "register")}
 					/>
 					<input
 						type="password"
 						name="password"
 						placeholder="Password"
 						value={registerData.password}
-						onChange={handleInputChange}
+						onChange={(e) => handleInputChange(e, "register")}
 					/>
 					<input
 						type="password"
 						name="confirmPassword"
 						placeholder="Confirm Password"
 						value={registerData.confirmPassword}
-						onChange={handleInputChange}
+						onChange={(e) => handleInputChange(e, "register")}
 					/>
 					<button type="submit">Sign Up</button>
 				</form>
@@ -115,14 +122,14 @@ const LoginSignup = () => {
 						placeholder="Username"
 						name="username"
 						value={loginData.username}
-						onChange={(e) => handleInputChange(e, setLoginData)}
+						onChange={(e) => handleInputChange(e, "login")}
 					/>
 					<input
 						type="password"
 						placeholder="Password"
 						name="password"
 						value={loginData.password}
-						onChange={(e) => handleInputChange(e, setLoginData)}
+						onChange={(e) => handleInputChange(e, "login")}
 					/>
 					<button type="submit">Sign In</button>
 				</form>

@@ -66,16 +66,17 @@ public class UserController {
         user.setUsername(registerDto.getUsername());
         user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
 
-        Role role = roleRepository.findByName("USER").get();
-//        user.setRoles(Collections.singletonList(roles));
+        Role role = roleRepository.findByName("ROLE_USER").get();
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
+        System.out.println(user);
 
         userRepository.save(user);
-
+        userRepository.flush();
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
 
     }
+
 }
 
