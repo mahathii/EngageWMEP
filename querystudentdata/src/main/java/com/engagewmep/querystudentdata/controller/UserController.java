@@ -73,7 +73,6 @@ public class UserController {
         System.out.println(user);
 
         userRepository.save(user);
-        userRepository.flush();
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
 
     }
