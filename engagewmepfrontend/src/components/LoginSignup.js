@@ -9,9 +9,8 @@ const LoginSignup = () => {
 
 	const [registerData, setRegisterData] = useState({
 		username: "",
-		email: "", // If you're using email as username, make sure to adjust accordingly in your User model and everywhere else.
+		email: "",
 		password: "",
-		confirmPassword: "",
 	});
 
 	const [loginData, setLoginData] = useState({
@@ -30,20 +29,37 @@ const LoginSignup = () => {
 	const handleRegisterSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post("/api/auth/register", registerData);
-			console.log(registerData);
-			if (response.data) navigate("/dashboard");
+			const response = await axios.post(
+				"http://localhost:8080/register",
+				registerData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+					},
+				}
+			);
+			console.log(response.data);
+			navigate("/dashboard");
 		} catch (error) {
-			console.error("Registration error:", error);
+			console.error("Registration error:", error.response || error.message);
 		}
 	};
 
 	const handleLoginSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post("/api/auth/login", loginData);
+			const response = await axios.post(
+				"http://localhost:8080/login",
+				loginData,
+				{
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json",
+					},
+				}
+			);
 			if (response.data) {
-				localStorage.setItem("token", response.data.jwt);
 				navigate("/dashboard");
 			}
 		} catch (error) {
