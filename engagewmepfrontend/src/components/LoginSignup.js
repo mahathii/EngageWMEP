@@ -14,7 +14,7 @@ const LoginSignup = () => {
 	});
 
 	const [loginData, setLoginData] = useState({
-		username: "",
+		email: "",
 		password: "",
 	});
 
@@ -29,20 +29,19 @@ const LoginSignup = () => {
 	const handleRegisterSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post(
-				"http://localhost:8080/register",
-				registerData,
-				{
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-					},
-				}
-			);
-			console.log(response.data);
+			await axios.post("http://localhost:8080/register", registerData, {
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+			});
 			navigate("/dashboard");
 		} catch (error) {
-			console.error("Registration error:", error.response || error.message);
+			if (error.response && error.response.status === 400) {
+				alert(error.response.data);
+			} else {
+				console.error("Registration error:", error.response || error.message);
+			}
 		}
 	};
 
@@ -60,10 +59,21 @@ const LoginSignup = () => {
 				}
 			);
 			if (response.data) {
+				// Successful login, navigate to dashboard
 				navigate("/dashboard");
 			}
 		} catch (error) {
-			console.error("Login error:", error);
+			// Handle login error
+			if (error.response && error.response.status === 404) {
+				// User not found (email does not exist)
+				alert("User not found. Please check your email.");
+			} else if (error.response && error.response.status === 401) {
+				// Unauthorized (password incorrect)
+				alert("Incorrect password. Please try again.");
+			} else {
+				// Other errors
+				alert("Login failed. Please try again later.");
+			}
 		}
 	};
 
@@ -135,9 +145,9 @@ const LoginSignup = () => {
 					<h1>Sign In</h1>
 					<input
 						type="text"
-						placeholder="Username"
-						name="username"
-						value={loginData.username}
+						placeholder="Email"
+						name="email"
+						value={loginData.email}
 						onChange={(e) => handleInputChange(e, "login")}
 					/>
 					<input

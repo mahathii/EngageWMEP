@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
+
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -24,9 +26,16 @@ public class UserController {
 
     @PostMapping(path = "/login", produces = "application/json")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        boolean userExists = userRepository.existsByUsername(loginDto.getUsername());
+        boolean userExists = userRepository.existsByEmail(loginDto.getEmail());
         if (userExists) {
-            return ResponseEntity.ok().body("Login acknowledged for username: " + loginDto.getUsername() + ". No actual authentication performed.");
+            Optional<UserEntity> optionalUser = userRepository.findByEmail(loginDto.getEmail());
+            UserEntity user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
+
+            if (loginDto.getPassword().equals(user.getPassword())) {
+                return ResponseEntity.ok().body("Logged in successfully! ");
+            } else {
+                return new ResponseEntity<>("Incorrect password", HttpStatus.UNAUTHORIZED);
+            }
         } else {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
         }
@@ -36,11 +45,13 @@ public class UserController {
     @PostMapping("/register")
     @Transactional
     public ResponseEntity<?> register(@RequestBody RegisterDto registerDto) {
-        System.out.println("Register endpoint hit with username: " + registerDto.getUsername());
-        if (userRepository.existsByUsername(registerDto.getUsername())) {
-            return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
+
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            return new ResponseEntity<>("Email is already registered!", HttpStatus.BAD_REQUEST);
         }
+
         UserEntity user = new UserEntity();
+        user.setEmail(registerDto.getEmail());
         user.setUsername(registerDto.getUsername());
         user.setPassword(registerDto.getPassword());
 
