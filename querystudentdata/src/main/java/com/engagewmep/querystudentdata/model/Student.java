@@ -3,8 +3,9 @@ package com.engagewmep.querystudentdata.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.Set;
 
 @Entity
@@ -16,15 +17,12 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String studentID;
+    private String studentId;
     private String lastName;
     private String firstName;
     private String degreeLevel;
-    private LocalDate graduationDate;
+    private Date graduationDate;
     private String major;
     private String college;
     private String adminMajor;
-    // Other student fields
-
-    // Getters and setters
 }

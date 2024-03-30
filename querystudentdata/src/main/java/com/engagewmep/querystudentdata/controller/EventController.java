@@ -3,6 +3,7 @@ package com.engagewmep.querystudentdata.controller;
 import com.engagewmep.querystudentdata.model.Event;
 import com.engagewmep.querystudentdata.model.Student;
 import com.engagewmep.querystudentdata.repository.EventRepository;
+import com.engagewmep.querystudentdata.repository.StudentRepository;
 import com.engagewmep.querystudentdata.service.EventService;
 import com.engagewmep.querystudentdata.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,17 @@ public class EventController {
     @Autowired
     private EventRepository eventRepository;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
+    private final StudentService studentService;
+
+    // Autowiring the StudentService instance into your controller
+    @Autowired
+    public EventController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
     @GetMapping
     public ResponseEntity<List<Event>> getAllEvents() {
         List<Event> events = eventRepository.findAll();
@@ -39,5 +51,14 @@ public class EventController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/student/{studentId}/events")
+    public ResponseEntity<List<Event>> getEventsByStudentId(@PathVariable String studentId) {
+        List<Event> events = studentService.getEventsByStudentStudentId(studentId);
+        if(events.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(events);
     }
 }

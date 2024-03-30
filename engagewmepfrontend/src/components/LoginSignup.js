@@ -59,19 +59,15 @@ const LoginSignup = () => {
 				}
 			);
 			if (response.data) {
-				// Successful login, navigate to dashboard
+				localStorage.setItem("isLoggedIn", "true");
 				navigate("/dashboard");
 			}
 		} catch (error) {
-			// Handle login error
 			if (error.response && error.response.status === 404) {
-				// User not found (email does not exist)
 				alert("User not found. Please check your email.");
 			} else if (error.response && error.response.status === 401) {
-				// Unauthorized (password incorrect)
 				alert("Incorrect password. Please try again.");
 			} else {
-				// Other errors
 				alert("Login failed. Please try again later.");
 			}
 		}
@@ -92,7 +88,6 @@ const LoginSignup = () => {
 		}
 	};
 
-	// Apply the 'active' class based on the state
 	const containerClasses = isActive ? "container active" : "container";
 
 	return (
