@@ -15,6 +15,9 @@ public interface AttendanceRepository extends JpaRepository<EventAttendance, Lon
     List<EventAttendance> findByEvent(Event event);
     List<EventAttendance> findByStudentId(Long studentId);
 
+    List<EventAttendance> findByEventIdIn(List<Long> eventIds);
+
+
 
 
 }

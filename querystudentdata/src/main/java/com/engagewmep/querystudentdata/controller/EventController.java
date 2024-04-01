@@ -8,10 +8,7 @@ import com.engagewmep.querystudentdata.service.EventService;
 import com.engagewmep.querystudentdata.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +16,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/events")
 public class EventController {
+
     @Autowired
     private EventService eventService;
+
     @Autowired
     private EventRepository eventRepository;
 
@@ -29,7 +28,6 @@ public class EventController {
 
     private final StudentService studentService;
 
-    // Autowiring the StudentService instance into your controller
     @Autowired
     public EventController(StudentService studentService) {
         this.studentService = studentService;
@@ -53,12 +51,23 @@ public class EventController {
         }
     }
 
+    // New endpoint to handle multiple event IDs
+
     @GetMapping("/student/{studentId}/events")
     public ResponseEntity<List<Event>> getEventsByStudentId(@PathVariable String studentId) {
         List<Event> events = studentService.getEventsByStudentStudentId(studentId);
-        if(events.isEmpty()) {
+        if (events.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(events);
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<List<Student>> getStudentsByMultipleEvents(@RequestParam List<Long> eventId) {
+        List<Student> students = eventService.getStudentsByMultipleEvents(eventId);
+        if (students.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(students);
     }
 }

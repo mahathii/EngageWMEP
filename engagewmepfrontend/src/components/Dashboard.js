@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Multiselect from "multiselect-react-dropdown";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-	const [selectedEvent, setSelectedEvent] = useState("");
+	const [selectedEvent, setSelectedEvent] = useState([]);
 	const [events, setEvents] = useState([]);
 	const [students, setStudents] = useState([]);
 	const [studentIdInput, setStudentIdInput] = useState("");
 	const [studentEvents, setStudentEvents] = useState([]);
+	const [selectedEventsForMultiselect, setSelectedEventsForMultiselect] =
+		useState([]);
 
 	useEffect(() => {
 		axios
 			.get(`/events`)
 			.then((response) => {
-				setEvents(response.data);
+				setEvents(
+					response.data.map((event) => ({ name: event.name, id: event.id }))
+				);
 			})
 			.catch((error) => {
 				console.error("Error fetching events:", error);
@@ -21,19 +26,28 @@ const Dashboard = () => {
 	}, []);
 
 	useEffect(() => {
-		if (selectedEvent) {
+		if (selectedEvent.length > 0) {
+			const queryParam = selectedEvent.map((id) => `eventId=${id}`).join("&");
 			axios
-				.get(`/events/${selectedEvent}/students`)
+				.get(`/events/students?${queryParam}`)
 				.then((response) => {
 					setStudents(response.data);
 				})
 				.catch((error) => {
-					console.error("Error fetching students for event:", error);
+					console.error("Error fetching students for events:", error);
 				});
+		} else {
+			setStudents([]);
 		}
 	}, [selectedEvent]);
 
-	// Fetch events attended by a specific student
+	const onSelectedEventsChange = (selectedList, selectedItem) => {
+		setSelectedEventsForMultiselect(selectedList);
+		// Assuming the selectedList contains objects with event 'id', extract these ids.
+		const selectedIds = selectedList.map((event) => event.id);
+		setSelectedEvent(selectedIds); // Now using setSelectedEvent correctly to update the state.
+	};
+
 	const fetchStudentEvents = () => {
 		axios
 			.get(`/events/student/${studentIdInput}/events`)
@@ -45,17 +59,15 @@ const Dashboard = () => {
 
 	return (
 		<div className="card-body p-0">
-			<select
-				onChange={(e) => setSelectedEvent(e.target.value)}
-				value={selectedEvent}
-			>
-				<option value="">Select an Event</option>
-				{events.map((event, index) => (
-					<option key={index} value={event.id}>
-						{event.name}
-					</option>
-				))}
-			</select>
+			{/* Multiselect dropdown for multiple event selections */}
+			<Multiselect
+				options={events} // Options to display in the dropdown
+				selectedValues={selectedEventsForMultiselect} // Preselected value to persist in dropdown
+				onSelect={onSelectedEventsChange} // Function will trigger on select event
+				onRemove={onSelectedEventsChange} // Function will trigger on remove event
+				displayValue="name" // Property name to display in the dropdown options
+				showCheckbox={true}
+			/>
 
 			<h2>Total Students: {students.length}</h2>
 			<table className="table-text-small">
