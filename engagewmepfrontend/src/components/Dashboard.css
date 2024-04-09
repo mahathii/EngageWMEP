@@ -1,57 +1,48 @@
-.card-body {
-	background-color: #f8f9fa; /* Light grey background */
-	border-radius: 0.25rem;
-	padding: 20px;
+/* Dashboard.css */
+
+/* Style for the container div */
+.dashboard-container {
+	padding: 80px;
+	background-color: #cc0000;
+	font: Arial;
+	border-radius: 10px;
 }
 
-.card-body select {
-	width: 100%;
-	padding: 0.5rem;
-	margin-bottom: 1rem;
-	border: 1px solid #ced4da;
-	border-radius: 0.25rem;
-	font-size: 1rem;
+/* Style for the list */
+.dashboard-list {
+	list-style-type: none;
+	padding: 0;
 }
 
-.table-text-small {
-	width: 100%;
-	border-collapse: collapse;
-	font-size: 0.875rem; /* Small text for table */
-	color: black;
-	display: unset;
-	margin-bottom: 0;
+/* Style for list items */
+.dashboard-item {
+	margin-bottom: 10px;
 }
 
-.table-text-small thead {
-	display: table;
-	width: 100%;
-	table-layout: fixed; /* Ensures the columns align properly */
+/* Style for links */
+.dashboard-link {
+	text-decoration: none;
+	color: #333;
 }
 
-.table-text-small tbody {
-	display: block;
-	max-height: 400px; /* Adjust based on your needs */
-	width: 100%;
+/* Hover effect for links */
+.dashboard-link:hover {
+	color: #555;
 }
 
-.table-text-small th,
-.table-text-small td {
-	vertical-align: top;
-	width: 175px;
-	padding: 0.75rem;
-	border: 1px solid black;
-	box-sizing: border-box;
-}
-
-.thead-dark th {
-	position: sticky;
-	top: 0; /* Adjust if you need some top space */
-	z-index: 10;
-	background-color: red;
+.dashboard-button {
+	padding: 10px 20px;
+	background-color: #cc0000;
+	border-color: white;
 	color: #fff;
+	cursor: pointer;
+	border-radius: 10px;
+	font-weight: bold;
 }
 
-/* Adjusted hover effect to only affect tbody rows */
-.table-text-small tbody tr:hover {
-	background-color: lightgrey;
+/* Hover effect for buttons */
+.dashboard-button:hover {
+	font-weight: bold;
+	background-color: white;
+	color: #cc0000;
 }

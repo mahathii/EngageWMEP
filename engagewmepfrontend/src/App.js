@@ -4,6 +4,8 @@ import "./App.css";
 import Header from "./components/Header";
 import LoginSignup from "./components/LoginSignup";
 import Dashboard from "./components/Dashboard";
+import StudentsPage from "./components/StudentsPage";
+import EventsPage from "./components/EventsPage";
 
 function App() {
 	return (
@@ -12,10 +14,10 @@ function App() {
 				<Header />
 				<Routes>
 					{" "}
-					{/* Use Routes to wrap Route components */}
 					<Route path="/dashboard" element={<Dashboard />} />
 					<Route path="/signup" element={<LoginSignup />} />
-					{/* You can add more Route components here */}
+					<Route path="/students" element={<StudentsPage />} />
+					<Route path="/events" element={<EventsPage />} />
 				</Routes>
 			</div>
 		</Router>

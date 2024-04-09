@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/events")
@@ -39,21 +38,7 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
-    @GetMapping("/{eventId}/students")
-    public ResponseEntity<List<Student>> getStudentsByEvent(@PathVariable Long eventId) {
-        Optional<Event> eventOptional = eventRepository.findById(eventId);
-        if (eventOptional.isPresent()) {
-            Event event = eventOptional.get();
-            List<Student> students = eventService.getStudentsByEvent(event);
-            return ResponseEntity.ok(students);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    // New endpoint to handle multiple event IDs
-
-    @GetMapping("/student/{studentId}/events")
+    @GetMapping("/{studentId}/events")
     public ResponseEntity<List<Event>> getEventsByStudentId(@PathVariable String studentId) {
         List<Event> events = studentService.getEventsByStudentStudentId(studentId);
         if (events.isEmpty()) {
@@ -63,8 +48,20 @@ public class EventController {
     }
 
     @GetMapping("/students")
-    public ResponseEntity<List<Student>> getStudentsByMultipleEvents(@RequestParam List<Long> eventId) {
-        List<Student> students = eventService.getStudentsByMultipleEvents(eventId);
+    public ResponseEntity<List<Student>> getStudentsByMultipleEvents(
+            @RequestParam List<Long> eventId,
+            @RequestParam(required = false) String strategy // Add this parameter
+    ) {
+        List<Student> students;
+        if (eventId == null || eventId.isEmpty()) {
+            students = studentRepository.findAll();
+        } else {
+            if ("ALL".equalsIgnoreCase(strategy)) {
+                students = eventService.getStudentsAttendingAllEvents(eventId);
+            } else {
+                students = eventService.getStudentsByMultipleEvents(eventId);
+            }
+        }
         if (students.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

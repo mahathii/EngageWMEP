@@ -19,23 +19,39 @@ public class EventService {
     @Autowired
     private AttendanceRepository attendanceRepository;
 
-    // Get students attending a specific event
-    public List<Student> getStudentsByEvent(Event event) {
-        List<EventAttendance> attendanceList = attendanceRepository.findByEvent(event);
-        return attendanceList.stream().map(EventAttendance::getStudent).collect(Collectors.toList());
-    }
-
     public List<Student> getStudentsByMultipleEvents(List<Long> eventIds) {
-        // This assumes you have or will add the findByEventIdIn method to the repository
+
         List<EventAttendance> attendances = attendanceRepository.findByEventIdIn(eventIds);
 
-        // Use a Set to avoid duplicate students if they attended multiple events
         Set<Student> uniqueStudents = new HashSet<>();
         for (EventAttendance attendance : attendances) {
             uniqueStudents.add(attendance.getStudent());
         }
 
-        // Convert the Set to a List to return
         return new ArrayList<>(uniqueStudents);
+    }
+
+    public List<Student> getStudentsAttendingAllEvents(List<Long> eventIds) {
+        List<Student> studentsAttendingAllEvents;
+
+        if (eventIds.isEmpty()) {
+            // If no events are selected, return an empty list
+            studentsAttendingAllEvents = List.of();
+        } else {
+            // Fetch attendance records for all selected events
+            List<EventAttendance> allAttendances = attendanceRepository.findByEventIdIn(eventIds);
+
+            // Group attendance records by student
+            var attendanceByStudent = allAttendances.stream()
+                    .collect(Collectors.groupingBy(EventAttendance::getStudent));
+
+            // Filter students who attended all events
+            studentsAttendingAllEvents = attendanceByStudent.entrySet().stream()
+                    .filter(entry -> entry.getValue().size() == eventIds.size())
+                    .map(entry -> entry.getKey())
+                    .collect(Collectors.toList());
+        }
+
+        return studentsAttendingAllEvents;
     }
 }

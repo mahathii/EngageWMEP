@@ -1,0 +1,38 @@
+.events-container {
+	margin-top: 20px;
+}
+
+.input-field {
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	margin-right: 10px;
+	font-size: 16px;
+}
+
+.events-button {
+	padding: 10px 20px;
+	background-color: #cc0000;
+	border-color: black;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 10px;
+	font-weight: bold;
+}
+
+.events-button:hover {
+	font-weight: bold;
+	background-color: white;
+	color: #cc0000;
+}
+
+.events-list {
+	list-style-type: none;
+	padding: 0;
+	margin-top: 10px;
+	text-align: left;
+}
+
+.events-list li {
+	margin-bottom: 5px;
+}
