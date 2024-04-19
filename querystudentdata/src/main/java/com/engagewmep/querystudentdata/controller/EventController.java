@@ -9,8 +9,10 @@ import com.engagewmep.querystudentdata.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Arrays;
 import java.util.List;
+import java.lang.reflect.Field;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/events")
@@ -47,10 +49,22 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
+    @GetMapping("/columns")
+    public ResponseEntity<List<String>> getStudentColumnNames() {
+        // Use reflection to get fields from the Student class
+        Field[] fields = Student.class.getDeclaredFields();
+        List<String> columnNames = Arrays.stream(fields)
+                .map(Field::getName)
+                .filter(name -> !name.equals("id"))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(columnNames);
+    }
+
     @GetMapping("/students")
     public ResponseEntity<List<Student>> getStudentsByMultipleEvents(
             @RequestParam List<Long> eventId,
-            @RequestParam(required = false) String strategy // Add this parameter
+            @RequestParam(required = false) String strategy,
+            @RequestParam(required = false) List<String> columns
     ) {
         List<Student> students;
         if (eventId == null || eventId.isEmpty()) {
@@ -62,6 +76,13 @@ public class EventController {
                 students = eventService.getStudentsByMultipleEvents(eventId);
             }
         }
+
+        if (columns != null && !columns.isEmpty()) {
+            for (Student student : students) {
+                student.filterColumns(columns);
+            }
+        }
+
         if (students.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
