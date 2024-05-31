@@ -20,6 +20,11 @@ const Dashboard = () => {
 							</button>
 						</Link>
 					</li>
+					<li className="dashboard-item">
+						<Link to="/alumni" className="dashboard-link">
+							<button className="dashboard-button">View Alumni data</button>
+						</Link>
+					</li>
 				</ul>
 			</div>
 		</div>

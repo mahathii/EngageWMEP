@@ -4,6 +4,8 @@ import Multiselect from "multiselect-react-dropdown";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import MyDocument from "./MyDocument";
 import "./StudentsPage.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const StudentsPage = () => {
 	const [events, setEvents] = useState([]);
@@ -14,6 +16,7 @@ const StudentsPage = () => {
 	const [prepareDownload, setPrepareDownload] = useState(false);
 	const [selectedColumns, setSelectedColumns] = useState({});
 	const [columnOptions, setColumnOptions] = useState([]);
+	const [selectedTimeFrame, setSelectedTimeFrame] = useState({});
 
 	useEffect(() => {
 		axios
@@ -47,17 +50,51 @@ const StudentsPage = () => {
 		setPrepareDownload(false);
 	};
 
+	// const handleDisplayStudentsClick = () => {
+	// 	const selectedIds = selectedEventsForMultiselect.map((event) => event.id);
+	// 	fetchStudentsForSelectedEvents(selectedIds, fetchStrategy);
+	// 	setPrepareDownload(false);
+	// };
+
+	// const fetchStudentsForSelectedEvents = (selectedIds = [], strategy) => {
+	// 	let url = `/events/students?strategy=${strategy}`;
+	// 	if (selectedIds.length > 0) {
+	// 		const queryParam = selectedIds.map((id) => `eventId=${id}`).join("&");
+	// 		url += `&${queryParam}`;
+	// 	}
+
+	// 	axios
+	// 		.get(url)
+	// 		.then((response) => {
+	// 			setStudents(response.data);
+	// 		})
+	// 		.catch((error) => {
+	// 			console.error("Error fetching students:", error);
+	// 		});
+	// };
+
 	const handleDisplayStudentsClick = () => {
 		const selectedIds = selectedEventsForMultiselect.map((event) => event.id);
-		fetchStudentsForSelectedEvents(selectedIds, fetchStrategy);
+		fetchStudentsForSelectedEvents(
+			selectedIds,
+			fetchStrategy,
+			selectedTimeFrame
+		);
 		setPrepareDownload(false);
 	};
 
-	const fetchStudentsForSelectedEvents = (selectedIds = [], strategy) => {
+	const fetchStudentsForSelectedEvents = (
+		selectedIds = [],
+		strategy,
+		timeFrame
+	) => {
 		let url = `/events/students?strategy=${strategy}`;
 		if (selectedIds.length > 0) {
 			const queryParam = selectedIds.map((id) => `eventId=${id}`).join("&");
 			url += `&${queryParam}`;
+		}
+		if (timeFrame.startDate && timeFrame.endDate) {
+			url += `&startDate=${timeFrame.startDate.toISOString()}&endDate=${timeFrame.endDate.toISOString()}`;
 		}
 
 		axios
@@ -87,6 +124,7 @@ const StudentsPage = () => {
 			);
 		});
 		setSelectedColumns(updatedSelectedColumns);
+		setPrepareDownload(false);
 	};
 
 	const formatColumnName = (columnName) => {
@@ -104,6 +142,30 @@ const StudentsPage = () => {
 		...option,
 		formattedName: formatColumnName(option.name),
 	}));
+
+	const handleTimeFrameChange = (timeFrame) => {
+		setSelectedTimeFrame((prevTimeFrame) => ({
+			...prevTimeFrame,
+			...timeFrame,
+		}));
+		setPrepareDownload(false);
+	};
+
+	const fetchStudentsForTimeFrame = (timeFrame) => {
+		const { startDate, endDate } = timeFrame;
+		const params = {};
+		if (startDate) params.startDate = startDate.toISOString().split("T")[0]; // Ensure only the date part is sent
+		if (endDate) params.endDate = endDate.toISOString().split("T")[0]; // Ensure only the date part is sent
+
+		axios
+			.get(`/events/students/timeframe`, { params })
+			.then((response) => {
+				setStudents(response.data);
+			})
+			.catch((error) => {
+				console.error("Error fetching students:", error);
+			});
+	};
 
 	const multiselectStyles = {
 		chips: {
@@ -131,6 +193,31 @@ const StudentsPage = () => {
 	return (
 		<div className="scrollable-table">
 			<div className="content-container">
+				<div className="time-frame-container">
+					<DatePicker
+						selected={selectedTimeFrame.startDate}
+						onChange={(date) => handleTimeFrameChange({ startDate: date })}
+						selectsStart
+						startDate={selectedTimeFrame.startDate}
+						endDate={selectedTimeFrame.endDate}
+						placeholderText="Start Date"
+					/>
+					<DatePicker
+						selected={selectedTimeFrame.endDate}
+						onChange={(date) => handleTimeFrameChange({ endDate: date })}
+						selectsEnd
+						startDate={selectedTimeFrame.startDate}
+						endDate={selectedTimeFrame.endDate}
+						minDate={selectedTimeFrame.startDate}
+						placeholderText="End Date"
+					/>
+					<button onClick={() => fetchStudentsForTimeFrame(selectedTimeFrame)}>
+						Apply Time Frame
+					</button>
+					<button onClick={() => fetchStudentsForTimeFrame({})}>
+						Clear Time Frame
+					</button>
+				</div>
 				<div className="dropdown-container">
 					<Multiselect
 						options={events}
@@ -165,7 +252,7 @@ const StudentsPage = () => {
 					<label htmlFor="all">All</label>
 				</div>
 
-				<div>
+				<div className="dropdown-container">
 					<Multiselect
 						// options={columnOptions}
 						options={formattedColumnOptions}

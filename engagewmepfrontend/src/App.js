@@ -6,6 +6,7 @@ import LoginSignup from "./components/LoginSignup";
 import Dashboard from "./components/Dashboard";
 import StudentsPage from "./components/StudentsPage";
 import EventsPage from "./components/EventsPage";
+import AlumniPage from "./components/AlumniPage";
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 					<Route path="/signup" element={<LoginSignup />} />
 					<Route path="/students" element={<StudentsPage />} />
 					<Route path="/events" element={<EventsPage />} />
+					<Route path="/alumni" element={<AlumniPage />} />
 				</Routes>
 			</div>
 		</Router>

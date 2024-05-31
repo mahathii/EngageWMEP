@@ -7,9 +7,11 @@ import com.engagewmep.querystudentdata.repository.StudentRepository;
 import com.engagewmep.querystudentdata.service.EventService;
 import com.engagewmep.querystudentdata.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.lang.reflect.Field;
 import java.util.stream.Collectors;
@@ -83,6 +85,18 @@ public class EventController {
             }
         }
 
+        if (students.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/students/timeframe")
+    public ResponseEntity<List<Student>> getStudentsByTimeFrame(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate
+    ) {
+        List<Student> students = studentService.getStudentsByTimeFrame(startDate, endDate);
         if (students.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

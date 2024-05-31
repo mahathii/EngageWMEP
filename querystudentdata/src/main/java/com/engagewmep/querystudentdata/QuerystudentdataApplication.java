@@ -37,17 +37,6 @@ public class QuerystudentdataApplication {
 		}
 	}
 
-//	@Bean
-//	public UserController userController(UserRepository userRepository)
-//	{
-//		return new UserController(userRepository);
-//	}
-
-//	@Bean
-//	public EventController eventController(StudentService studentService) {
-//		return new EventController(studentService);
-//	}
-
 }
 
 

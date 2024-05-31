@@ -39,19 +39,14 @@
 .table-text-small th,
 .table-text-small td {
 	vertical-align: top;
-	/* width: 177px; */
 	padding: 0.75rem;
 	border: 1px solid black;
 	box-sizing: border-box;
 }
 
 .dropdown-container {
-	/* margin-bottom: 20px; */
 	display: inline-block;
-	/* vertical-align: left; */
-	/* width: 81%; */
 	border-color: black;
-
 	display: flex;
 	justify-content: center; /* Centers children horizontally in the container */
 	align-items: center;

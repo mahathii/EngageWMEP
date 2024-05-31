@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,4 +30,14 @@ public class StudentService {
         List<EventAttendance> attendances = attendanceRepository.findByStudentStudentId(studentId);
         return attendances.stream().map(EventAttendance::getEvent).collect(Collectors.toList());
     }
+
+    public List<Student> getStudentsByTimeFrame(Date startDate, Date endDate) {
+        return attendanceRepository.findByEventDateBetween(startDate, endDate)
+                .stream()
+                .map(EventAttendance::getStudent)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+
 }
