@@ -1,0 +1,83 @@
+.alumni-page {
+    padding: 20px;
+    height: 100vh; /* Extend to full page height */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Added to position the back link */
+  }
+  
+  .back-to-dashboard {
+    position: absolute; /* Position the link absolutely */
+    top: 60px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    padding: 10px 20px; /* Increased padding for better visibility */
+    background-color: #007BFF; /* Button background */
+    color: white; /* Button text color */
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px; /* Slightly larger font size */
+    font-weight: bold; /* Make the text bold */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: background-color 0.3s ease;
+    z-index: 1000; /* Ensure it stays on top of other elements */
+  }
+  
+  .back-to-dashboard:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .alumni-list-heading {
+    margin-top: 60px; /* Space below the back link */
+    margin-bottom: 20px; /* Space between the heading and the search input */
+    font-size: 24px; /* Larger font size for visibility */
+    text-align: center; /* Center the heading */
+    color: #333; /* Dark color for contrast */
+  }
+  
+  .search-input {
+    margin-bottom: 20px; /* Space between search input and table */
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding doesn't affect the width */
+  }
+  
+  .table-container { /* Added container for scrollable table */
+    flex: 1; /* Take up remaining space */
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+    margin-top: 10px; /* Add some space above the table */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensure the table takes the full width */
+  }
+  
+  th, td {
+    padding: 15px; /* Increased padding for more space */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    word-wrap: break-word; /* Ensure content wraps nicely */
+  }
+  
+  th {
+    background-color: #007BFF; /* Changed background color */
+    color: #fff; /* White text for better contrast */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  tbody tr:hover {
+    background-color: #e0f7fa; /* Subtle hover effect with light blue */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  

@@ -1,0 +1,75 @@
+/* src/components/AlumniDetail.css */
+
+.alumni-detail-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    padding: 20px;
+    background-color: #e9ecef; /* Light background color */
+    min-height: 100vh; /* Full height */
+    overflow-y: auto; /* Allow vertical scrolling */ /* Added */
+  }
+  
+  .alumni-detail-card {
+    background: white; /* Card background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 800px; /* Maximum width */
+    width: 100%; /* Full width */
+    text-align: center;
+    position: relative; /* Relative positioning to control z-index */
+    margin-top: 20px; /* Add margin to separate from header */ /* Added */
+  }
+  
+  .alumni-name {
+    font-size: 32px; /* Larger font size for name */
+    margin-bottom: 20px;
+    color: #333; /* Dark text color */
+  }
+  
+  .alumni-info {
+    text-align: left; /* Align text to the left */
+    line-height: 1.6; /* Increase line height for better readability */
+    overflow: auto; /* Allow scrolling within the content if needed */ /* Changed from hidden to auto */
+    max-height: 70vh; /* Ensure content doesn't exceed viewport height */ /* Added */
+  }
+  
+  .alumni-info p {
+    font-size: 18px; /* Larger font size for details */
+    margin: 10px 0;
+  }
+  
+  .alumni-info strong {
+    color: #007BFF; /* Primary color for labels */
+  }
+  
+  .back-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF; /* Button background */
+    color: white; /* Button text color */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 16px; /* Slightly larger font size */
+    font-weight: bold; /* Make the text bold */
+  }
+  
+  .back-link:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .alumni-detail-card::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent background */
+    border-radius: 10px; /* Adjust border radius */
+    z-index: -1; /* Place behind the card */
+  }
+  

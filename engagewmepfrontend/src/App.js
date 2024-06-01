@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard";
 import StudentsPage from "./components/StudentsPage";
 import EventsPage from "./components/EventsPage";
 import AlumniPage from "./components/AlumniPage";
+import AlumniDetail from "./components/AlumniDetail"; 
 
 function App() {
 	return (
@@ -20,6 +21,8 @@ function App() {
 					<Route path="/students" element={<StudentsPage />} />
 					<Route path="/events" element={<EventsPage />} />
 					<Route path="/alumni" element={<AlumniPage />} />
+          			<Route path="/alumni/:id" element={<AlumniDetail />} />
+
 				</Routes>
 			</div>
 		</Router>
