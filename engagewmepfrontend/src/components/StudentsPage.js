@@ -6,6 +6,7 @@ import MyDocument from "./MyDocument";
 import "./StudentsPage.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Link } from 'react-router-dom';
 
 const StudentsPage = () => {
 	const [events, setEvents] = useState([]);
@@ -100,7 +101,8 @@ const StudentsPage = () => {
 		axios
 			.get(url)
 			.then((response) => {
-				setStudents(response.data);
+				// setStudents(response.data);
+				setStudents(Array.isArray(response.data) ? response.data : []);
 			})
 			.catch((error) => {
 				console.error("Error fetching students:", error);
@@ -160,7 +162,8 @@ const StudentsPage = () => {
 		axios
 			.get(`/events/students/timeframe`, { params })
 			.then((response) => {
-				setStudents(response.data);
+				// setStudents(response.data);
+				setStudents(Array.isArray(response.data) ? response.data : []);
 			})
 			.catch((error) => {
 				console.error("Error fetching students:", error);
@@ -194,6 +197,7 @@ const StudentsPage = () => {
 		<div className="scrollable-table">
 			<div className="content-container">
 				<div className="time-frame-container">
+					<Link to="/dashboard" className="back-to-dashboard-student">Back to Dashboard</Link>
 					<DatePicker
 						selected={selectedTimeFrame.startDate}
 						onChange={(date) => handleTimeFrameChange({ startDate: date })}
@@ -319,28 +323,34 @@ const StudentsPage = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{students.map((student, index) => (
-								<tr key={index}>
-									{Object.keys(selectedColumns).map((columnName) => {
-										if (selectedColumns[columnName]) {
-											return (
-												<td key={`${columnName}-${index}`}>
-													{student[columnName] !== null
-														? student[columnName]
-														: "N/A"}
-												</td>
-											);
-										}
-										return null;
-									})}
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	);
+						{students.length > 0 ? ( // Check if students is an array before mapping
+                                students.map((student, index) => (
+                                    <tr key={index}>
+                                        {Object.keys(selectedColumns).map((columnName) => {
+                                            if (selectedColumns[columnName]) {
+                                                return (
+                                                    <td key={`${columnName}-${index}`}>
+                                                        {student[columnName] !== null
+                                                            ? student[columnName]
+                                                            : "N/A"}
+                                                    </td>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={Object.keys(selectedColumns).length}>No students found</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default StudentsPage;

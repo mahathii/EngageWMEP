@@ -19,12 +19,16 @@ const Header = () => {
 		navigate("/signup");
 	};
 
+	const handleHeadingClick = () => {
+		navigate("/dashboard");
+	};
+
 	const handleNavigation = () => {
 		navigate("/signup");
 	};
 	return (
 		<header className="header">
-			<h1>EngageWMEP</h1>
+			<h1 onClick={handleHeadingClick} className="header-heading">EngageWMEP</h1>
 
 			{!isLoggedIn ? (
 				<button className="header-button" onClick={handleNavigation}>

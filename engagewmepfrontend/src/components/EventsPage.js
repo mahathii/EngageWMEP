@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./EventsPage.css";
+import { Link } from 'react-router-dom';
 
 const EventsPage = () => {
 	const [studentIdInput, setStudentIdInput] = useState("");
@@ -17,6 +18,7 @@ const EventsPage = () => {
 
 	return (
 		<div className="events-page-container">
+			<Link to="/dashboard" className="back-to-dashboard-event">Back to Dashboard</Link>
 			{" "}
 			<input
 				type="text"

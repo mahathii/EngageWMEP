@@ -11,6 +11,10 @@
 	z-index: 100;
 }
 
+.header-heading {
+    cursor: pointer;
+}
+
 .header-button {
 	margin-left: 10px;
 	border-radius: 20px;
