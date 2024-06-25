@@ -32,7 +32,7 @@ const AlumniPage = () => {
 
   return (
     <div className="alumni-page"> {/* Added class for styling */}
-      <Link to="/dashboard" className="back-to-dashboard">Back to Dashboard</Link>
+      <Link to="/dashboard" className="back-to-dashboard-alumni">Back to Dashboard</Link>
       <h1 className="alumni-list-heading">Alumni List</h1>
       <input
         type="text"

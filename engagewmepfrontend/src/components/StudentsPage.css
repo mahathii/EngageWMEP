@@ -100,7 +100,73 @@ table .table-text-small {
 	color: #cc0000;
 }
 
+
+.student-button {
+	padding: 10px 20px;
+	border: unset;
+	border-radius: 15px;
+	color: #fff;
+	z-index: 1;
+	background: #cc0000;
+	position: relative;
+	font-weight: 1000;
+	font-size: 17px;
+	-webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+	box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+	transition: all 250ms;
+	overflow: hidden;
+   }
+   
+   .student-button::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 0;
+	border-radius: 15px;
+	background-color: white;
+	z-index: -1;
+	-webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+	box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+	transition: all 250ms
+   }
+   
+   .student-button:hover {
+	background-color: white;
+	color:#cc0000;
+   }
+   
+   .student-button:hover::before {
+	width: 100%;
+   }
+
 .dropdown-container .Multiselect {
 	z-index: 1;
 	max-height: 40px;
+}
+
+.search-input, .multiselect__input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    background-color: white;
+}
+
+.multiselect__input {
+    font-size: 20px;
+    min-height: 50px;
+    width: 100%;
+}
+
+.dropdown-container {
+	width: 1000px;
+    margin-bottom: 10px; /* Add spacing between dropdowns */
+}
+
+.students-button {
+    margin-bottom: 20px; /* Add spacing between buttons and the next section */
 }

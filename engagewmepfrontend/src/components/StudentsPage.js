@@ -14,6 +14,8 @@ const StudentsPage = () => {
 	const [selectedEventsForMultiselect, setSelectedEventsForMultiselect] =
 		useState([]);
 	const [fetchStrategy, setFetchStrategy] = useState("ANY");
+	const [filteredStudents, setFilteredStudents] = useState([]); // State for filtered students
+	const [searchTerm, setSearchTerm] = useState(''); 
 	const [prepareDownload, setPrepareDownload] = useState(false);
 	const [selectedColumns, setSelectedColumns] = useState({});
 	const [columnOptions, setColumnOptions] = useState([]);
@@ -45,6 +47,13 @@ const StudentsPage = () => {
 				console.error("Error fetching student columns:", error);
 			});
 	}, []);
+
+	useEffect(() => {
+		const results = students.filter(student =>
+			`${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+		);
+		setFilteredStudents(results);
+	}, [searchTerm, students]);
 
 	const onSelectedEventsChange = (selectedList) => {
 		setSelectedEventsForMultiselect(selectedList);
@@ -103,6 +112,7 @@ const StudentsPage = () => {
 			.then((response) => {
 				// setStudents(response.data);
 				setStudents(Array.isArray(response.data) ? response.data : []);
+				setFilteredStudents(Array.isArray(response.data) ? response.data : []);
 			})
 			.catch((error) => {
 				console.error("Error fetching students:", error);
@@ -164,6 +174,7 @@ const StudentsPage = () => {
 			.then((response) => {
 				// setStudents(response.data);
 				setStudents(Array.isArray(response.data) ? response.data : []);
+				setFilteredStudents(Array.isArray(response.data) ? response.data : []);
 			})
 			.catch((error) => {
 				console.error("Error fetching students:", error);
@@ -186,12 +197,19 @@ const StudentsPage = () => {
 			fontSize: "20px",
 			minHeight: "50px",
 			width: "1000px",
-		},
-		inputField: {
-			width: "300px",
-			height: "40px",
-		},
+		}
 	};
+
+	const searchInputStyles = {
+		width: "1000px",
+		height: "40px",
+		padding: "10px",
+		borderRadius: "5px",
+		border: "1px solid black",
+		boxShadow: "inset 0 1px 2px rgba(0,0,0,0.1)",
+		backgroundColor: "white",
+	};
+	
 
 	return (
 		<div className="scrollable-table">
@@ -222,6 +240,7 @@ const StudentsPage = () => {
 						Clear Time Frame
 					</button>
 				</div>
+				
 				<div className="dropdown-container">
 					<Multiselect
 						options={events}
@@ -305,6 +324,16 @@ const StudentsPage = () => {
 						</PDFDownloadLink>
 					)}
 				</div>
+				<div className="dropdown-container">
+				<input
+					type="text"
+					placeholder="Search by name"
+					value={searchTerm}
+					onChange={e => setSearchTerm(e.target.value)}
+					style={searchInputStyles}
+					/*className="search-input" // Added class for search input styling*/
+					/>
+				</div>
 				<div>
 					<br></br>
 					<h2>Number of students: {students.length}</h2>
@@ -323,8 +352,8 @@ const StudentsPage = () => {
 							</tr>
 						</thead>
 						<tbody>
-						{students.length > 0 ? ( // Check if students is an array before mapping
-                                students.map((student, index) => (
+						{filteredStudents.length > 0 ? ( // Check if students is an array before mapping
+                                filteredStudents.map((student, index) => (
                                     <tr key={index}>
                                         {Object.keys(selectedColumns).map((columnName) => {
                                             if (selectedColumns[columnName]) {

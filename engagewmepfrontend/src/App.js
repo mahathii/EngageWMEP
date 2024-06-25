@@ -7,26 +7,28 @@ import Dashboard from "./components/Dashboard";
 import StudentsPage from "./components/StudentsPage";
 import EventsPage from "./components/EventsPage";
 import AlumniPage from "./components/AlumniPage";
-import AlumniDetail from "./components/AlumniDetail"; 
+import AlumniDetail from "./components/AlumniDetail";
+import AlumniSearch from "./components/AlumniSearch";
+import AlumniForm from "./components/AlumniForm";
 
 function App() {
-	return (
-		<Router>
-			<div className="App">
-				<Header />
-				<Routes>
-					{" "}
-					<Route path="/dashboard" element={<Dashboard />} />
-					<Route path="/signup" element={<LoginSignup />} />
-					<Route path="/students" element={<StudentsPage />} />
-					<Route path="/events" element={<EventsPage />} />
-					<Route path="/alumni" element={<AlumniPage />} />
-          			<Route path="/alumni/:id" element={<AlumniDetail />} />
-
-				</Routes>
-			</div>
-		</Router>
-	);
+  return (
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<AlumniSearch />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/signup" element={<LoginSignup />} />
+          <Route path="/students" element={<StudentsPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/alumni" element={<AlumniPage />} />
+          <Route path="/alumni/:id" element={<AlumniDetail />} />
+          <Route path="/alumni-form" element={<AlumniForm />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;

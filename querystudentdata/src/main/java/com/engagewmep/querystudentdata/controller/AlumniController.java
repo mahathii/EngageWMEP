@@ -51,6 +51,13 @@ public class AlumniController {
         return ResponseEntity.ok(existingAlumni);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Alumni> searchAlumni(@RequestParam String term) {
+        List<Alumni> alumniList = alumniService.searchAlumni(term);
+        return ResponseEntity.ok(alumniList.isEmpty() ? null : alumniList.get(0));
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlumni(@PathVariable Long id) {
         if (alumniService.findAlumniById(id) != null) {

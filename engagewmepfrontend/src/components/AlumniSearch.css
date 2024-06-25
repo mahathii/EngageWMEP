@@ -1,0 +1,83 @@
+.alumni-search-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #ffffff, #dfe9f3);
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 100vw; /* Ensure it spans the full width of the viewport */
+    box-sizing: border-box;
+}
+
+.alumni-search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Width to take 80% of the page width for visibility */
+    max-width: 1200px; /* Ensure the container does not become too wide */
+    box-sizing: border-box;
+    
+}
+
+.not-found-message {
+    margin: 10px;
+    font-size: 16px;
+    color: #cc0000;
+    text-align: center;
+}
+
+
+.search-input-alumni {
+    margin: 10px;
+    padding: 15px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.search-button, .join-button {
+    margin: 10px;
+    padding: 15px 30px;
+    cursor: pointer;
+    background-color: #cc0000;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.search-button:hover, .join-button:hover {
+    background-color: white;
+    color: #cc0000;
+}
+
+.back-to-dashboard {
+    position: fixed;
+    top: 80px; 
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #cc0000;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.back-to-dashboard:hover {
+    background-color: white;
+    color: #cc0000;
+}

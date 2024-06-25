@@ -33,6 +33,10 @@ public class AlumniService {
         return alumniRepository.findById(id).orElse(null);
     }
 
+    public List<Alumni> searchAlumni(String term) {
+        return alumniRepository.findByEmailAddressOrFirstNameOrLastName(term, term, term);
+    }
+
     // Delete an Alumni by id
     public void deleteAlumni(Long id) {
         alumniRepository.deleteById(id);

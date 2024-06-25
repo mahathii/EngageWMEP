@@ -6,7 +6,7 @@
     position: relative; /* Added to position the back link */
   }
   
-  .back-to-dashboard {
+  .back-to-dashboard-alumni {
     position: absolute; /* Position the link absolutely */
     top: 60px; /* Distance from the top */
     right: 20px; /* Distance from the right */
@@ -22,7 +22,7 @@
     z-index: 90; /* Ensure it stays on top of other elements */
   }
   
-  .back-to-dashboard:hover {
+  .back-to-dashboard-alumni:hover {
     background-color: #0056b3; /* Darker blue on hover */
   }
   
@@ -34,7 +34,7 @@
     color: #333; /* Dark color for contrast */
   }
   
-  .search-input {
+  .search-input-alumni {
     margin-bottom: 20px; /* Space between search input and table */
     padding: 10px;
     font-size: 16px;
