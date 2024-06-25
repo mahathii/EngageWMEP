@@ -6,21 +6,23 @@ import "./AlumniSearch.css";
 const AlumniSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [alumni, setAlumni] = useState(null);
-  const [notFound, setNotFound] = useState(false); // Add a state to track if the user is not found
+  const [notFound, setNotFound] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = async () => {
     try {
       const response = await axios.get(`/api/alumni/search?term=${searchTerm}`);
-      if (response.data && response.data.length > 0) {
+      if (response.data) {
         setAlumni(response.data);
-        setNotFound(false); // User found, reset not found state
+        setNotFound(false);
       } else {
         setAlumni(null);
-        setNotFound(true); // User not found, set not found state
+        setNotFound(true);
       }
     } catch (error) {
       console.error("Error searching alumni", error);
+      setAlumni(null);
+      setNotFound(true);
     }
   };
 
