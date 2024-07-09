@@ -34,14 +34,20 @@ const EventsPage = () => {
 				<br></br>
 				<h2>Total Events: {studentEvents.length}</h2>
 				{studentEvents.length > 0 && (
-					<ul className="events-list">
-						{" "}
-						{studentEvents.map((event, index) => (
-							<li className="events-list" key={index}>
-								{event.name}
-							</li>
-						))}
-					</ul>
+					<table className="events-table">
+						<thead>
+							<tr>
+								<th>Event Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							{studentEvents.map((event, index) => (
+								<tr key={index}>
+									<td>{event.name}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
 				)}
 			</div>
 		</div>

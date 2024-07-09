@@ -1,58 +1,65 @@
-.events-container {
-	margin-top: 20px;
+.events-page-container {
+    margin-top: 20px;
 }
 
 .input-field {
-	padding: 8px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	margin-right: 10px;
-	font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 16px;
 }
 
 .events-button {
-	padding: 10px 20px;
-	background-color: #cc0000;
-	border-color: black;
-	color: #fff;
-	cursor: pointer;
-	border-radius: 10px;
-	font-weight: bold;
+    padding: 10px 20px;
+    background-color: #cc0000;
+    border-color: black;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: bold;
 }
 
 .events-button:hover {
-	font-weight: bold;
-	background-color: white;
-	color: #cc0000;
+    font-weight: bold;
+    background-color: white;
+    color: #cc0000;
 }
 
-.events-list {
-	list-style-type: none;
-	padding: 0;
-	margin-top: 10px;
-	text-align: left;
+.events-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    text-align: left;
 }
 
-.events-list li {
-	margin-bottom: 5px;
+.events-table th,
+.events-table td {
+    padding: 8px;
+    border: 1px solid #020202;
+}
+
+.events-table th {
+    background-color: #cc0000;
+    font-weight: bold;
 }
 
 .back-to-dashboard-event {
-    position: absolute; /* Position the link absolutely */
-    top: 80px; /* Distance from the top */
-    right: 20px; /* Distance from the right */
-    padding: 10px 20px; /* Increased padding for better visibility */
-    background-color: #cc0000; /* Button background */
-    color: white; /* Button text color */
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #cc0000;
+    color: white;
     border-radius: 10px;
     text-decoration: none;
-    font-size: 16px; /* Slightly larger font size */
-    font-weight: bold; /* Make the text bold */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
-    z-index: 90; /* Ensure it stays on top of other elements */
-  }
-  
-  .back-to-dashboard-event:hover {
-    background-color: #6a0202; /* Darker blue on hover */
-  }
+    z-index: 90;
+}
+
+.back-to-dashboard-event:hover {
+    background-color: #6a0202;
+}

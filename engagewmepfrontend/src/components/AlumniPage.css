@@ -11,7 +11,7 @@
     top: 60px; /* Distance from the top */
     right: 20px; /* Distance from the right */
     padding: 10px 20px; /* Increased padding for better visibility */
-    background-color: #007BFF; /* Button background */
+    background-color: #cc0000; /* Button background */
     color: white; /* Button text color */
     border-radius: 5px;
     text-decoration: none;
@@ -23,7 +23,8 @@
   }
   
   .back-to-dashboard-alumni:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: white;
+	  color: #cc0000; /* Darker blue on hover */
   }
   
   .alumni-list-heading {
@@ -62,10 +63,15 @@
     text-align: left;
     border-bottom: 1px solid #ddd;
     word-wrap: break-word; /* Ensure content wraps nicely */
+    
+  }
+
+  th {
+    border: 1px solid #020202;
   }
   
   th {
-    background-color: #007BFF; /* Changed background color */
+    background-color: #cc0000; /* Changed background color */
     color: #fff; /* White text for better contrast */
     position: sticky;
     top: 0;

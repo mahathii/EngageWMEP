@@ -50,10 +50,12 @@ const StudentsPage = () => {
 
 	useEffect(() => {
 		const results = students.filter(student =>
-			`${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+			`${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+			student.studentId.toString().includes(searchTerm) // Student ID 
 		);
 		setFilteredStudents(results);
 	}, [searchTerm, students]);
+	
 
 	const onSelectedEventsChange = (selectedList) => {
 		setSelectedEventsForMultiselect(selectedList);
@@ -325,13 +327,13 @@ const StudentsPage = () => {
 					)}
 				</div>
 				<div className="dropdown-container">
-				<input
-					type="text"
-					placeholder="Search by name"
-					value={searchTerm}
-					onChange={e => setSearchTerm(e.target.value)}
-					style={searchInputStyles}
-					/*className="search-input" // Added class for search input styling*/
+					<input
+						type="text"
+						placeholder="Search by name or student ID"
+						value={searchTerm}
+						onChange={e => setSearchTerm(e.target.value)}
+						style={searchInputStyles}
+						/* className="search-input" // Added class for search input styling */
 					/>
 				</div>
 				<div>
@@ -379,6 +381,7 @@ const StudentsPage = () => {
                 </div>
             </div>
         </div>
+	
     );
 };
 
