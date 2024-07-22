@@ -10,6 +10,7 @@ import AlumniPage from "./components/AlumniPage";
 import AlumniDetail from "./components/AlumniDetail";
 import AlumniSearch from "./components/AlumniSearch";
 import AlumniForm from "./components/AlumniForm";
+import PrivateRoute from "./PrivateRoute";
 
 function App() {
   return (
@@ -18,12 +19,26 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<AlumniSearch />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route path="/dashboard" element={<PrivateRoute />}>
+            <Route path="" element={<Dashboard />} />
+          </Route>
           <Route path="/signup" element={<LoginSignup />} />
-          <Route path="/students" element={<StudentsPage />} />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/alumni" element={<AlumniPage />} />
-          <Route path="/alumni/:id" element={<AlumniDetail />} />
+          {/* <Route path="/students" element={<StudentsPage />} /> */}
+          <Route path="/students" element={<PrivateRoute />}>
+            <Route path="" element={<StudentsPage />} />
+          </Route>
+          <Route path="/events" element={<PrivateRoute />}>
+            <Route path="" element={<EventsPage />} />
+          </Route>
+          {/* <Route path="/alumni" element={<AlumniPage />} /> */}
+          <Route path="/alumni" element={<PrivateRoute />}>
+            <Route path="" element={<AlumniPage />} />
+          </Route>
+          {/* <Route path="/alumni/:id" element={<AlumniDetail />} /> */}
+          <Route path="/alumni/:id" element={<PrivateRoute />}>
+            <Route path="" element={<AlumniDetail />} />
+          </Route>
           <Route path="/alumni-form" element={<AlumniForm />} />
         </Routes>
       </div>

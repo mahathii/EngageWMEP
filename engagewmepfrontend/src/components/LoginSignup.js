@@ -177,6 +177,11 @@ const LoginSignup = () => {
 						>
 							Sign Up
 						</button>
+					{/* <div className="alumni-link-container">
+						<a href="/" className="alumni-link">
+							Are you an alumni? Navigate here
+    					</a>
+					</div> */}
 					</div>
 				</div>
 			</div>
