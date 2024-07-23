@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from 'react-router-dom';
 
+
 const StudentsPage = () => {
 	const [events, setEvents] = useState([]);
 	const [students, setStudents] = useState([]);
@@ -216,7 +217,7 @@ const StudentsPage = () => {
 	return (
 		<div className="scrollable-table">
 			<div className="content-container">
-				<div className="time-frame-container">
+				<div className="datepicker-container">
 					<Link to="/dashboard" className="back-to-dashboard-student">Back to Dashboard</Link>
 					<DatePicker
 						selected={selectedTimeFrame.startDate}
@@ -294,19 +295,23 @@ const StudentsPage = () => {
 					/>
 				</div>
 				<div>
-					<button
-						className="students-button"
-						onClick={handleDisplayStudentsClick}
-					>
-						Display Students
-					</button>
-
-					<button
-						className="students-button"
-						onClick={handlePrepareDownloadClick}
-					>
-						Prepare Download
-					</button>
+					{selectedEventsForMultiselect.length > 0 && ( // Conditionally render Display Students button
+						<button
+							className="students-button"
+							onClick={handleDisplayStudentsClick}
+						>
+							Display Students
+						</button>
+					)}
+					{students.length > 0 && Object.keys(selectedColumns).some(column => selectedColumns[column]) && (
+						<button
+							className="students-button"
+							onClick={handlePrepareDownloadClick}
+						>
+							Prepare Download
+						</button>
+					)}
+					
 
 					{prepareDownload && (
 						<PDFDownloadLink

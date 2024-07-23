@@ -171,3 +171,76 @@ table .table-text-small {
 .students-button {
     margin-bottom: 20px; /* Add spacing between buttons and the next section */
 }
+
+/* Container to maintain consistent layout */
+.datepicker-container {
+    display: flex;
+    align-items: center;
+    justify-content:center; /* Center the content horizontally */
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%; /* Ensure it takes full width */
+}
+
+/* DatePicker input styling */
+.datepicker-container .react-datepicker-wrapper,
+.datepicker-container .react-datepicker__input-container {
+    width: auto;
+}
+
+.datepicker-container .react-datepicker__input-container input {
+    width: 150px;
+    height: 30px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    background-color: white;
+}
+
+/* Style for the buttons */
+.datepicker-container button {
+    height: 30px;
+    padding: 0px 10px;
+	margin-bottom: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #cc0000;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Ensure buttons are not affected by DatePicker */
+}
+
+
+.datepicker-container button:hover {
+    background-color: white;
+    color: #cc0000;
+}
+
+
+.react-datepicker__navigation--next {
+    background-color: #00a7cc; /* Change to your desired color */
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style for the previous navigation button */
+.react-datepicker__navigation--previous {
+    background-color: #cc0000; /* Change to your desired color */
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Additional hover effect for the buttons */
+.react-datepicker__navigation--next:hover,
+.react-datepicker__navigation--previous:hover {
+    background-color: #a30000; /* Darker shade on hover */
+}

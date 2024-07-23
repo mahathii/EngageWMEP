@@ -19,23 +19,19 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<AlumniSearch />} />
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/dashboard" element={<PrivateRoute />}>
             <Route path="" element={<Dashboard />} />
           </Route>
           <Route path="/signup" element={<LoginSignup />} />
-          {/* <Route path="/students" element={<StudentsPage />} /> */}
           <Route path="/students" element={<PrivateRoute />}>
             <Route path="" element={<StudentsPage />} />
           </Route>
           <Route path="/events" element={<PrivateRoute />}>
             <Route path="" element={<EventsPage />} />
-          </Route>
-          {/* <Route path="/alumni" element={<AlumniPage />} /> */}
+          </Route> 
           <Route path="/alumni" element={<PrivateRoute />}>
             <Route path="" element={<AlumniPage />} />
           </Route>
-          {/* <Route path="/alumni/:id" element={<AlumniDetail />} /> */}
           <Route path="/alumni/:id" element={<PrivateRoute />}>
             <Route path="" element={<AlumniDetail />} />
           </Route>

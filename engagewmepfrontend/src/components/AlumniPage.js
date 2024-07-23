@@ -46,7 +46,7 @@ const AlumniPage = () => {
           <thead>
             <tr>
               <th>Sno</th> {/* Added Sno column */}
-              <th>Alumni Name</th> {/* Modified column name */}
+              <th>Name</th> {/* Modified column name */}
             </tr>
           </thead>
           <tbody>
