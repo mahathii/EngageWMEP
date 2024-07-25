@@ -36,11 +36,15 @@
   }
   
   .search-input-alumni {
-    margin-bottom: 20px; /* Space between search input and table */
-    padding: 10px;
-    font-size: 16px;
     width: 100%;
-    box-sizing: border-box; /* Ensure padding doesn't affect the width */
+    /* max-width: 1000px; */
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    background-color: white;
+    margin: 0 0 20px 0; /* Ensure padding doesn't affect the width */
   }
   
   .table-container { /* Added container for scrollable table */
@@ -49,7 +53,7 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
-    margin-top: 10px; /* Add some space above the table */
+    /* margin-top: 10px; Add some space above the table */
   }
   
   table {

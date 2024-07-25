@@ -27,10 +27,13 @@
 }
 
 .events-table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
     margin-top: 10px;
     text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    
 }
 
 .events-table th,
@@ -63,3 +66,18 @@
 .back-to-dashboard-event:hover {
     background-color: #6a0202;
 }
+
+
+/* .search-container {
+    position: fixed; /* Changed to fixed for better visibility */
+    /* top: 140px; */
+    /* left: 30px; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* padding: 10px; Added padding */
+    /* z-index: 1000; Ensured it stays on top */
+    /* } */
+
+
+
+

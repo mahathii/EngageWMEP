@@ -19,17 +19,20 @@ const EventsPage = () => {
 	return (
 		<div className="events-page-container">
 			<Link to="/dashboard" className="back-to-dashboard-event">Back to Dashboard</Link>
-			{" "}
-			<input
-				type="text"
-				value={studentIdInput}
-				onChange={(e) => setStudentIdInput(e.target.value)}
-				className="input-field"
-				placeholder="Enter student ID"
-			/>
-			<button className="events-button" onClick={fetchStudentEvents}>
-				Find Student's Events
-			</button>
+			{/* {" "} */}
+			<div className="search-container">
+				<input
+					type="text"
+					value={studentIdInput}
+					onChange={(e) => setStudentIdInput(e.target.value)}
+					className="input-field"
+					placeholder="Enter student ID"
+				/>
+				<button className="events-button" onClick={fetchStudentEvents}>
+					Find Student's Events
+				</button>
+			</div>
+			
 			<div>
 				<br></br>
 				<h2>Total Events: {studentEvents.length}</h2>

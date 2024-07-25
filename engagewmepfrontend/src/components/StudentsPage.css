@@ -1,18 +1,41 @@
 .scrollable-table {
-	max-height: 500px;
-	overflow-y: auto;
-	margin-top: 0px;
-	display: block;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f4f4f4;
+    width: 100vw;
+    overflow: hidden;
+    padding-top: 15%; /* Adjust this value if necessary to prevent content from going under the header */
 }
 
+.table-wrapper {
+    width: 100%;
+    /* max-width: 1200px; */
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: 20px;
+    max-height: 60vh; /* Adjust based on your preference */
+    /* border: 1px solid #ccc; */
+    display: flex;
+    justify-content: center;
+}
 
 .table-text-small {
-	width: 100%;
-	border-collapse: collapse;
-	font-size: 0.875rem;
-	color: black;
-	display: unset;
-	margin-bottom: 0;
+    width: auto;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    color: black;
+    margin: 0 auto; /* Center the table */
+}
+
+.table-text-small thead th {
+    background-color: #cc0000;
+    color: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Ensure it stays above the table rows */
 }
 
 .back-to-dashboard-student {
@@ -33,118 +56,50 @@
   
   .back-to-dashboard-student:hover {
     font-weight: bold;
-	background-color: white;
-	color: #cc0000; /* Darker blue on hover */
+    background-color: white;
+    color: #cc0000; /* Darker blue on hover */
   }
 
 .table-text-small tbody tr:hover {
-	background-color: lightgrey;
+    background-color: lightgrey;
 }
 
 .thead-dark th {
-	top: 0;
-	background-color: #cc0000;
-	position: sticky;
-	color: #ffffff;
+    top: 0;
+    background-color: #cc0000;
+    position: sticky;
+    color: #ffffff;
 }
 
 .content-container {
-	margin: 10px;
-	padding: 20px;
-	background-color: #f4f4f4;
-	border-radius: 8px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	flex-direction: column;
-	width: 100%;
-	float: left;
+    width: 100vw;
+    /* max-width: 1200px; */
+    margin: 10px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
 .table-text-small th,
 .table-text-small td {
-	vertical-align: top;
-	padding: 0.75rem;
-	border: 1px solid black;
-	box-sizing: border-box;
+    vertical-align: top;
+    padding: 0.75rem;
+    border: 1px solid black;
+    box-sizing: border-box;
 }
 
 .dropdown-container {
-	display: inline-block;
-	border-color: black;
-	display: flex;
-	justify-content: center; /* Centers children horizontally in the container */
-	align-items: center;
+    display: flex;
+    justify-content: center; /* Centers children horizontally in the container */
+    align-items: center;
+    width: 100%; /* Ensure it takes full width */
+    margin-bottom: 20px;
 }
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-top: 20px;
-}
-
-table .table-text-small {
-	font-size: 0.9rem;
-}
-
-.students-button {
-	padding: 10px 20px;
-	background-color: #cc0000;
-	border-color: black;
-	color: #fff;
-	cursor: pointer;
-	border-radius: 10px;
-	font-weight: bold;
-}
-
-.students-button:hover {
-	font-weight: bold;
-	background-color: white;
-	color: #cc0000;
-}
-
-
-.student-button {
-	padding: 10px 20px;
-	border: unset;
-	border-radius: 15px;
-	color: #fff;
-	z-index: 1;
-	background: #cc0000;
-	position: relative;
-	font-weight: 1000;
-	font-size: 17px;
-	-webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-	box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-	transition: all 250ms;
-	overflow: hidden;
-   }
-   
-   .student-button::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 0;
-	border-radius: 15px;
-	background-color: white;
-	z-index: -1;
-	-webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-	box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-	transition: all 250ms
-   }
-   
-   .student-button:hover {
-	background-color: white;
-	color:#cc0000;
-   }
-   
-   .student-button:hover::before {
-	width: 100%;
-   }
 
 .dropdown-container .Multiselect {
-	z-index: 1;
-	max-height: 40px;
+    width: 90%;
+    max-width: 1000px;
 }
 
 .search-input, .multiselect__input {
@@ -163,23 +118,95 @@ table .table-text-small {
     width: 100%;
 }
 
-.dropdown-container {
-	width: 1000px;
-    margin-bottom: 10px; /* Add spacing between dropdowns */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table .table-text-small {
+    font-size: 0.9rem;
 }
 
 .students-button {
-    margin-bottom: 20px; /* Add spacing between buttons and the next section */
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #cc0000;
+    border-color: black;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: bold;
 }
 
-/* Container to maintain consistent layout */
+.students-button:hover {
+    font-weight: bold;
+    background-color: white;
+    color: #cc0000;
+}
+
+
+.student-button {
+    padding: 10px 20px;
+    border: unset;
+    border-radius: 15px;
+    color: #fff;
+    z-index: 1;
+    background: #cc0000;
+    position: relative;
+    font-weight: 1000;
+    font-size: 17px;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    transition: all 250ms;
+    overflow: hidden;
+    padding-left: 10px;
+   }
+   
+   .student-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 15px;
+    background-color: white;
+    z-index: -1;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    transition: all 250ms
+   }
+   
+   .student-button:hover {
+    background-color: white;
+    color:#cc0000;
+   }
+   
+   .student-button:hover::before {
+    width: 100%;
+   }
+
+.search-input {
+    width: 90%;
+    max-width: 1000px;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    background-color: white;
+    margin-bottom: 20px;
+}
+
 .datepicker-container {
     display: flex;
     align-items: center;
-    justify-content:center; /* Center the content horizontally */
+    justify-content: center; /* Center the content horizontally */
     gap: 10px;
     flex-wrap: wrap;
     width: 100%; /* Ensure it takes full width */
+    margin-bottom: 20px;
 }
 
 /* DatePicker input styling */
@@ -202,7 +229,7 @@ table .table-text-small {
 .datepicker-container button {
     height: 30px;
     padding: 0px 10px;
-	margin-bottom: 10px;
+    margin-bottom: 10px;
     border: 1px solid black;
     border-radius: 5px;
     background-color: #cc0000;
@@ -213,12 +240,10 @@ table .table-text-small {
     margin-top: 10px; /* Ensure buttons are not affected by DatePicker */
 }
 
-
 .datepicker-container button:hover {
     background-color: white;
     color: #cc0000;
 }
-
 
 .react-datepicker__navigation--next {
     background-color: #00a7cc; /* Change to your desired color */

@@ -39,7 +39,7 @@ const AlumniPage = () => {
         placeholder="Search by name"
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
-        className="search-input" // Added class for search input styling
+        className="search-input-alumni" // Added class for search input styling
       />
       <div className="table-container"> {/* Added container for scrollable table */}
         <table>

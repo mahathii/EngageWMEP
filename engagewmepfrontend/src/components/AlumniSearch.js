@@ -35,7 +35,7 @@ const AlumniSearch = () => {
           placeholder="Search by name or email"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input-alumni"
+          className="search-input-alumni-search"
         />
         <button className="search-button" onClick={handleSearch}>Search</button>
         {alumni ? (
