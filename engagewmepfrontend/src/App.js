@@ -11,6 +11,8 @@ import AlumniDetail from "./components/AlumniDetail";
 import AlumniSearch from "./components/AlumniSearch";
 import AlumniForm from "./components/AlumniForm";
 import PrivateRoute from "./PrivateRoute";
+import ViewStudentsByDate from "./components/ViewStudentsByDate"; // New import
+import ViewStudentsByEvent from "./components/ViewStudentsByEvent";
 
 function App() {
   return (
@@ -36,6 +38,12 @@ function App() {
             <Route path="" element={<AlumniDetail />} />
           </Route>
           <Route path="/alumni-form" element={<AlumniForm />} />
+          <Route path="/view-by-date" element={<PrivateRoute />}>
+            <Route path="" element={<ViewStudentsByDate />} />
+          </Route>
+          <Route path="/view-by-event" element={<PrivateRoute />}>
+            <Route path="" element={<ViewStudentsByEvent />} />
+          </Route>
         </Routes>
       </div>
     </Router>
