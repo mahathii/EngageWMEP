@@ -48,7 +48,7 @@
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #007BFF; /* Button background */
+    background-color: #cc0000; /* Button background */
     color: white; /* Button text color */
     border-radius: 5px;
     text-decoration: none;
@@ -58,7 +58,9 @@
   }
   
   .back-link:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    font-weight: bold;
+    background-color: white;
+    color: #cc0000; /* Darker blue on hover */
   }
   
   .alumni-detail-card::before {
