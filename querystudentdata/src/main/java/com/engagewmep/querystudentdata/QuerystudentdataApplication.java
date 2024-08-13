@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //@ComponentScan(basePackages = {"com.engagewmep.querystudentdata.Services"})
 @ComponentScan(basePackages = {"com.engagewmep.querystudentdata"})
 @EnableJpaRepositories(basePackages = "com.engagewmep.querystudentdata.repository")
-//@EntityScan("com.engagewmep.querystudentdata.model")
+@EntityScan("com.engagewmep.querystudentdata.model")
 public class QuerystudentdataApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuerystudentdataApplication.class, args);

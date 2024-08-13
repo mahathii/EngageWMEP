@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.lang.reflect.Field;
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus; // Added import
+
 
 @RestController
 @RequestMapping("/events")
@@ -102,4 +104,11 @@ public class EventController {
         }
         return ResponseEntity.ok(students);
     }
+
+    @PostMapping
+    public ResponseEntity<Event> addEvent(@RequestBody Event newEvent) {
+        Event createdEvent = eventRepository.save(newEvent); // Save the new event
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent); // Return the created event with a 201 status
+    }
 }
+
