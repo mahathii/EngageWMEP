@@ -64,6 +64,10 @@
     background-color: lightgrey;
 }
 
+.student-heading {
+	margin-bottom: 10px;
+}
+
 .thead-dark th {
     top: 0;
     background-color: #cc0000;
@@ -131,6 +135,8 @@ table .table-text-small {
 .students-button {
     padding: 10px 20px;
     margin-right: 10px;
+    margin-bottom: 20px;
+    display: block;
     background-color: #cc0000;
     border-color: black;
     color: #fff;
@@ -140,6 +146,24 @@ table .table-text-small {
 }
 
 .students-button:hover {
+    font-weight: bold;
+    background-color: white;
+    color: #cc0000;
+}
+
+.view-students-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-color: #cc0000;
+    border-color: black;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.view-students-button:hover {
     font-weight: bold;
     background-color: white;
     color: #cc0000;
@@ -268,4 +292,10 @@ table .table-text-small {
 .react-datepicker__navigation--next:hover,
 .react-datepicker__navigation--previous:hover {
     background-color: #a30000; /* Darker shade on hover */
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

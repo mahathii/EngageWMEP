@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./LoginSignup.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,24 @@ const LoginSignup = () => {
 
 	const [loginError, setLoginError] = useState("");
 	const [registerError, setRegisterError] = useState("");
+
+	const validateEmail = (email) => {
+		return /\S+@\S+\.\S+/.test(email);
+	};
+
+	useEffect(() => {
+        if (loginData.email && !validateEmail(loginData.email)) {
+            setLoginError((prev) => ({
+                ...prev,
+                email: "Email address is invalid",
+            }));
+        } else {
+            setLoginError((prev) => {
+                const { email, ...rest } = prev;
+                return rest;
+            });
+        }
+    }, [loginData.email]);
 
 	const handleRegisterClick = () => {
 		setIsActive(true);

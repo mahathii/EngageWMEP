@@ -16,6 +16,8 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @Temporal(TemporalType.DATE)
     private Date eventDate;
 }
 

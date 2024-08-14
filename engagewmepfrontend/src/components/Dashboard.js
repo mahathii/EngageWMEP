@@ -16,7 +16,7 @@ const Dashboard = () => {
 					<li className="dashboard-item">
 						<Link to="/events" className="dashboard-link">
 							<button className="dashboard-button">
-								View Events for a Student
+								Events
 							</button>
 						</Link>
 					</li>

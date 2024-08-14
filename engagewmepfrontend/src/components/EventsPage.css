@@ -20,6 +20,13 @@
     font-weight: bold;
 }
 
+.events-navigation {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center;
+    gap: 20px; /* Add space between the buttons */
+    }
+
 .events-button:hover {
     font-weight: bold;
     background-color: white;
@@ -65,6 +72,14 @@
 
 .back-to-dashboard-event:hover {
     background-color: #6a0202;
+}
+
+.search-container {
+margin-bottom: 20px;
+}
+
+.add-event-container {
+    padding: 10px 0;
 }
 
 

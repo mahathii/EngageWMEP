@@ -28,11 +28,11 @@ const AlumniSearch = () => {
 
   return (
     <div className="alumni-search-page">
-      <Link to="/dashboard" className="back-to-dashboard">Back to Dashboard</Link>
       <div className="alumni-search-container">
+        <h3 className="student-heading">Check if you are in our Alumni database:</h3>
         <input
           type="text"
-          placeholder="Search by name or email"
+          placeholder="Search by email"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input-alumni-search"
