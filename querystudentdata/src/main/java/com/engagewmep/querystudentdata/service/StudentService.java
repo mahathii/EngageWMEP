@@ -9,6 +9,7 @@ import com.engagewmep.querystudentdata.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,7 @@ public class StudentService {
         return attendances.stream().map(EventAttendance::getEvent).collect(Collectors.toList());
     }
 
-    public List<Student> getStudentsByTimeFrame(Date startDate, Date endDate) {
+    public List<Student> getStudentsByTimeFrame(LocalDate startDate, LocalDate endDate) {
         return attendanceRepository.findByEventDateBetween(startDate, endDate)
                 .stream()
                 .map(EventAttendance::getStudent)

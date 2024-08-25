@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Multiselect from "multiselect-react-dropdown";
-import { pdf } from "@react-pdf/renderer"; // Import the pdf function from @react-pdf/renderer
+import { pdf } from "@react-pdf/renderer"; 
 import MyDocument from "./MyDocument";
 import "./StudentsPage.css";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from 'react-router-dom';
 
@@ -50,7 +49,7 @@ const ViewStudentsByEvent = () => {
     useEffect(() => {
         const results = students.filter(student =>
             `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            student.studentId.toString().includes(searchTerm) // Student ID 
+            student.studentId.toString().includes(searchTerm) 
         );
         setFilteredStudents(results);
     }, [searchTerm, students]);
@@ -205,31 +204,7 @@ const ViewStudentsByEvent = () => {
         <div className="scrollable-table">
             <div className="content-container">
                 <Link to="/dashboard" className="back-to-dashboard-student">Back to Dashboard</Link>
-                {/* <div className="datepicker-container">
-                    <DatePicker
-                        selected={selectedTimeFrame.startDate}
-                        onChange={(date) => handleTimeFrameChange({ startDate: date })}
-                        selectsStart
-                        startDate={selectedTimeFrame.startDate}
-                        endDate={selectedTimeFrame.endDate}
-                        placeholderText="Start Date"
-                    />
-                    <DatePicker
-                        selected={selectedTimeFrame.endDate}
-                        onChange={(date) => handleTimeFrameChange({ endDate: date })}
-                        selectsEnd
-                        startDate={selectedTimeFrame.startDate}
-                        endDate={selectedTimeFrame.endDate}
-                        minDate={selectedTimeFrame.startDate}
-                        placeholderText="End Date"
-                    />
-                    <button onClick={() => fetchStudentsForTimeFrame(selectedTimeFrame)}>
-                        Apply Time Frame
-                    </button>
-                    <button onClick={handleClearTimeFrameClick}>
-                        Clear Time Frame
-                    </button>
-                </div> */}
+                
                 
                 <div className="dropdown-container">
                     <Multiselect

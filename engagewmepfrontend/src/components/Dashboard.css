@@ -19,6 +19,11 @@
 	margin-bottom: 10px;
 }
 
+.dashboard-heading {
+	margin-bottom: 30px;
+	color: white;
+}
+
 /* Style for links */
 .dashboard-link {
 	text-decoration: none;

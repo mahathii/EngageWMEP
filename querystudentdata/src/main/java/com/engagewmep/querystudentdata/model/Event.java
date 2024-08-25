@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -18,7 +19,10 @@ public class Event {
     private String name;
 
     @Temporal(TemporalType.DATE)
-    private Date eventDate;
+    private LocalDate eventDate;
+
+    private LocalTime eventTime;    // New field
+    private String eventLocation;
 }
 
 

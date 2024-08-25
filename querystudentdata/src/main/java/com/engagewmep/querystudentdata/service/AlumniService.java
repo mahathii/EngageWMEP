@@ -34,7 +34,7 @@ public class AlumniService {
     }
 
     public List<Alumni> searchAlumni(String term) {
-        return alumniRepository.findByEmailAddressOrFirstNameOrLastName(term, term, term);
+        return alumniRepository.findByEmailAddress(term);
     }
 
     // Delete an Alumni by id

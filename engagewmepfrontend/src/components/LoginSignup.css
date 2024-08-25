@@ -212,27 +212,24 @@ body {
 	/* Additional properties as needed */
 }
 
-.alumni-link-container {
-    text-align: center;
-    margin-top: 20px;
-}
-
 .alumni-link {
-    display: inline-block;
-    color: #cc0000;
-    font-size: 14px;
-    text-decoration: none;
-    background-color: #fff;
-    padding: 10px 20px;
-    border: 2px solid #cc0000;
-    border-radius: 8px;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: #cc0000;
+	color: #fff;
+	font-size: 12px;
+	padding: 10px 45px;
+	border: 1px solid;
+	border-radius: 8px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	margin-top: 10px;
+	cursor: pointer;
 }
 
-.alumni-link:hover {
-    background-color: #cc0000;
+/* .alumni-link:hover {
+    background-color: blue;
     color: #fff;
-}
+} */
 
 .error-message {
 	color: red;

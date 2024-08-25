@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import axios from 'axios';
 import './AlumniDetail.css';
 
@@ -19,6 +21,47 @@ const AlumniDetail = () => {
 
     fetchAlumni();
   }, [id]);
+
+  const generatePDF = () => {
+    if (!alumni) return;
+
+    const doc = new jsPDF();
+
+    // Title
+    doc.setFontSize(20);
+    doc.text(`${alumni.firstName} ${alumni.lastName} - Alumni Details`, 10, 10);
+
+    // Alumni Details
+    const details = [
+      { label: 'Email', value: alumni.emailAddress },
+      { label: 'Personal Email', value: alumni.personalEmailAddress },
+      { label: 'Race/Ethnicity', value: alumni.raceEthnicity },
+      { label: 'Gender', value: alumni.gender },
+      { label: 'Identity Information', value: alumni.identityInformationForConnection },
+      { label: 'NCSU Graduate', value: alumni.ncsuGraduate },
+      { label: 'College of Engineering Graduate', value: alumni.collegeOfEngineeringGraduate },
+      { label: 'Year of Graduation', value: alumni.yearOfGraduation },
+      { label: 'STP Participation and Year', value: alumni.stpParticipationAndYear },
+      { label: 'Major', value: alumni.major },
+      { label: 'Current Employer', value: alumni.currentEmployer },
+      { label: 'Current Job Title', value: alumni.currentJobTitle },
+      { label: 'Current City', value: alumni.currentCity },
+      { label: 'Current State', value: alumni.currentState },
+      { label: 'Current Zip Code', value: alumni.currentZipCode },
+      { label: 'Post Graduation Achievements', value: alumni.postGraduationAchievements },
+      { label: 'Email Opt-In for MEP Program Updates', value: alumni.emailOptInForMepProgramUpdates },
+      { label: 'Engagement Opportunities', value: alumni.engagementOpportunitiesForNcsuMepAlumniAndSupporters },
+      { label: 'Mentoring Opt-In', value: alumni.mentoringOptIn },
+    ];
+
+    doc.setFontSize(12);
+
+    details.forEach((detail, index) => {
+      doc.text(`${detail.label}: ${detail.value || 'N/A'}`, 10, 30 + index * 10);
+    });
+
+    doc.save(`${alumni.firstName}_${alumni.lastName}_AlumniDetails.pdf`);
+  };
 
   if (!alumni) {
     return <div>Loading...</div>;
@@ -49,7 +92,11 @@ const AlumniDetail = () => {
           <p><strong>Engagement Opportunities:</strong> {alumni.engagementOpportunitiesForNcsuMepAlumniAndSupporters}</p>
           <p><strong>Mentoring Opt-In:</strong> {alumni.mentoringOptIn}</p>
         </div>
-        <Link className="back-link" to="/alumni">Back to Alumni List</Link>
+        <button onClick={generatePDF} className="alumni-button">Download as PDF</button>
+        <button onClick={() => window.location.href = '/alumni'} className="alumni-button">
+  Back to Alumni List
+</button>
+
       </div>
     </div>
   );
