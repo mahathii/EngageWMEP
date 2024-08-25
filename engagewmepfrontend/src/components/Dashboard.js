@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
 	return (
 		<div className="dashboard-container">
+			<h1 className="dashboard-heading">Your Dashboard</h1>
 			<div>
 				<ul className="dashboard-list">
 					<li className="dashboard-item">
 						<Link to="/students" className="dashboard-link">
 							<button className="dashboard-button">
-								View Students by Event
+								Students
 							</button>
 						</Link>
 					</li>
@@ -22,7 +23,7 @@ const Dashboard = () => {
 					</li>
 					<li className="dashboard-item">
 						<Link to="/alumni" className="dashboard-link">
-							<button className="dashboard-button">View Alumni data</button>
+							<button className="dashboard-button">Alumni</button>
 						</Link>
 					</li>
 				</ul>

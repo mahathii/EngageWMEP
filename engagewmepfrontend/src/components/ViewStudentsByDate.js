@@ -79,7 +79,7 @@ const ViewStudentsByDate = () => {
             url += `&${queryParam}`;
         }
         if (timeFrame.startDate && timeFrame.endDate) {
-            url += `&startDate=${timeFrame.startDate.toISOString()}&endDate=${timeFrame.endDate.toISOString()}`;
+            url += `&startDate=${timeFrame.startDate}&endDate=${timeFrame.endDate}`;
         }
 
         axios
@@ -231,39 +231,6 @@ const ViewStudentsByDate = () => {
                     </button>
                 </div>
                 
-                {/* <div className="dropdown-container">
-                    <Multiselect
-                        options={events}
-                        selectedValues={selectedEventsForMultiselect}
-                        onSelect={onSelectedEventsChange}
-                        onRemove={onSelectedEventsChange}
-                        displayValue="name"
-                        showCheckbox={true}
-                        style={multiselectStyles}
-                        closeIcon="close"
-                        placeholder="Select Events"
-                    />
-                </div> */}
-                {/* <div className="fetch-strategy-container">
-                    <input
-                        type="radio"
-                        id="any"
-                        name="fetchStrategy"
-                        value="ANY"
-                        checked={fetchStrategy === "ANY"}
-                        onChange={handleFetchStrategyChange}
-                    />
-                    <label htmlFor="any">Any</label>
-                    <input
-                        type="radio"
-                        id="all"
-                        name="fetchStrategy"
-                        value="ALL"
-                        checked={fetchStrategy === "ALL"}
-                        onChange={handleFetchStrategyChange}
-                    />
-                    <label htmlFor="all">All</label>
-                </div> */}
 
                 <div className="dropdown-container">
                     <Multiselect

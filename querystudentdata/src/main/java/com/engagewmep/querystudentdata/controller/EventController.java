@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -95,8 +97,8 @@ public class EventController {
 
     @GetMapping("/students/timeframe")
     public ResponseEntity<List<Student>> getStudentsByTimeFrame(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
         List<Student> students = studentService.getStudentsByTimeFrame(startDate, endDate);
         if (students.isEmpty()) {
@@ -107,8 +109,33 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<Event> addEvent(@RequestBody Event newEvent) {
-        Event createdEvent = eventRepository.save(newEvent); // Save the new event
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent); // Return the created event with a 201 status
+        Event createdEvent = eventRepository.save(newEvent);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event updatedEvent) {
+        return eventRepository.findById(id)
+                .map(event -> {
+                    event.setName(updatedEvent.getName());
+                    event.setEventDate(updatedEvent.getEventDate());
+                    event.setEventTime(updatedEvent.getEventTime());
+                    event.setEventLocation(updatedEvent.getEventLocation());
+                    Event savedEvent = eventRepository.save(event);
+                    return ResponseEntity.ok(savedEvent);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
+        return eventRepository.findById(id)
+                .map(event -> {
+                    eventRepository.delete(event);
+                    return ResponseEntity.ok().<Void>build(); // Correct return type
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }
 

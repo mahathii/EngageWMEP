@@ -19,7 +19,7 @@ const EventsPage = () => {
 			
 			<div className="events-navigation">
 				<button className="events-button" onClick={handleViewStudentsByEvents}>
-					View Students by Events
+					View Events by Student ID
 				</button>
 				<button className="events-button" onClick={handleManageEvents}>
 					Manage Events

@@ -20,6 +20,24 @@
     font-weight: bold;
 }
 
+.actions-button {
+    padding: 5px 20px;
+    background-color: #cc0000;
+    border-color: black;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-left: 10px;
+    opacity:1;
+}
+
+.actions-button:disabled {
+    opacity: 0.5; 
+    cursor: not-allowed; 
+}
+
 .events-navigation {
     display: flex;
     flex-direction: column; /* Stack buttons vertically */
