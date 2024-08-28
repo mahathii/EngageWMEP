@@ -202,10 +202,11 @@ const ViewStudentsByEvent = () => {
 
     return (
         <div className="scrollable-table">
-            <div className="content-container">
-                <Link to="/dashboard" className="back-to-dashboard-student">Back to Dashboard</Link>
-                
-                
+            <div className="back-buttons-container">
+        <Link to="/students" className="back-to-dashboard-student">Back</Link>
+        <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
+    </div>
+            
                 <div className="dropdown-container">
                     <Multiselect
                         options={events}
@@ -326,7 +327,7 @@ const ViewStudentsByEvent = () => {
                     </table>
                 </div>
             </div>
-        </div>
+        
     );
 };
 

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/alumni")
@@ -65,5 +66,10 @@ public class AlumniController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/filters")
+    public ResponseEntity<Map<String, List<String>>> getFilterValues() {
+        return ResponseEntity.ok(alumniService.getFilterValues());
     }
 }

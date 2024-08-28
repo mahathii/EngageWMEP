@@ -15,7 +15,10 @@ const EventsPage = () => {
 
 	return (
 		<div className="events-page-container">
-			<Link to="/dashboard" className="back-to-dashboard-event">Back to Dashboard</Link>
+			<div className="back-buttons-container">
+        
+        <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
+    </div>
 			
 			<div className="events-navigation">
 				<button className="events-button" onClick={handleViewStudentsByEvents}>

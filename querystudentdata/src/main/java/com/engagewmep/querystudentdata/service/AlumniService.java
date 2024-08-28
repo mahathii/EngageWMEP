@@ -5,8 +5,11 @@ import com.engagewmep.querystudentdata.repository.AlumniRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class AlumniService {
@@ -40,5 +43,24 @@ public class AlumniService {
     // Delete an Alumni by id
     public void deleteAlumni(Long id) {
         alumniRepository.deleteById(id);
+    }
+
+    public Map<String, List<String>> getFilterValues() {
+        List<Alumni> alumni = alumniRepository.findAll();
+
+        Map<String, List<String>> filterValues = new HashMap<>();
+        filterValues.put("raceEthnicity", alumni.stream().map(Alumni::getRaceEthnicity).distinct().collect(Collectors.toList()));
+        filterValues.put("gender", alumni.stream().map(Alumni::getGender).distinct().collect(Collectors.toList()));
+        filterValues.put("ncsuGraduate", alumni.stream().map(Alumni::getNcsuGraduate).distinct().collect(Collectors.toList()));
+        filterValues.put("collegeOfEngineeringGraduate", alumni.stream().map(Alumni::getCollegeOfEngineeringGraduate).distinct().collect(Collectors.toList()));
+        filterValues.put("yearOfGraduation", alumni.stream().map(Alumni::getYearOfGraduation).distinct().collect(Collectors.toList()));
+        filterValues.put("stpParticipationAndYear", alumni.stream().map(Alumni::getStpParticipationAndYear).distinct().collect(Collectors.toList()));
+        filterValues.put("major", alumni.stream().map(Alumni::getMajor).distinct().collect(Collectors.toList()));
+        filterValues.put("currentCity", alumni.stream().map(Alumni::getCurrentCity).distinct().collect(Collectors.toList()));
+        filterValues.put("currentState", alumni.stream().map(Alumni::getCurrentState).distinct().collect(Collectors.toList()));
+        filterValues.put("currentZipCode", alumni.stream().map(Alumni::getCurrentZipCode).distinct().collect(Collectors.toList()));
+        filterValues.put("mentoringOptIn", alumni.stream().map(Alumni::getMentoringOptIn).distinct().collect(Collectors.toList()));
+
+        return filterValues;
     }
 }

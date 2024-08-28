@@ -12,7 +12,10 @@ const StudentsPage = () => {
     return (
         <div className="scrollable-table">
             <div className="content-container">
-                <Link to="/dashboard" className="back-to-dashboard-student">Back to Dashboard</Link>
+            <div className="back-buttons-container">
+        
+        <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
+    </div>
                 <div className="button-container">
                     <h1 className="student-heading">Student Management</h1>
                     <button 

@@ -90,4 +90,16 @@
     background-color: #e0f7fa; /* Subtle hover effect with light blue */
     transition: background-color 0.3s ease; /* Smooth transition for hover effect */
   }
+
+  .filter-dropdown {
+    margin: 10px;
+    padding: 5px;
+    font-size: 14px;
+  }
+  
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
   

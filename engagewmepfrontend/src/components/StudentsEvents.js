@@ -19,7 +19,10 @@ const StudentsEvents = () => {
 
 	return (
 		<div className="events-page-container">
-			<Link to="/events" className="back-to-dashboard-event">Back to Events</Link>
+			<div className="back-buttons-container">
+        <Link to="/events" className="back-to-dashboard-student">Back</Link>
+        <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
+    </div>
 			<div className="search-container">
 				<input
 					type="text"

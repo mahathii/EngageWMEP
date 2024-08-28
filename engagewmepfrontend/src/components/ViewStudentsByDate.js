@@ -203,8 +203,12 @@ const ViewStudentsByDate = () => {
 
     return (
         <div className="scrollable-table">
+            <div className="back-buttons-container">
+        <Link to="/students" className="back-to-dashboard-student">Back</Link>
+        <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
+    </div>
             <div className="content-container">
-                <Link to="/dashboard" className="back-to-dashboard-student">Back to Dashboard</Link>
+                
                 <div className="datepicker-container">
                     <DatePicker
                         selected={selectedTimeFrame.startDate}
