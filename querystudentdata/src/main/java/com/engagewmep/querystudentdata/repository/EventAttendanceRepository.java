@@ -2,15 +2,15 @@ package com.engagewmep.querystudentdata.repository;
 
 import com.engagewmep.querystudentdata.model.Event;
 import com.engagewmep.querystudentdata.model.EventAttendance;
+import com.engagewmep.querystudentdata.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Date;
 
-public interface AttendanceRepository extends JpaRepository<EventAttendance, Long> {
+public interface EventAttendanceRepository extends JpaRepository<EventAttendance, Long> {
 
     @Query("SELECT ea FROM EventAttendance ea WHERE ea.event.eventDate BETWEEN :startDate AND :endDate")
     List<EventAttendance> findByEventDateBetween(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
@@ -19,6 +19,8 @@ public interface AttendanceRepository extends JpaRepository<EventAttendance, Lon
     List<EventAttendance> findByEvent(Event event);
     List<EventAttendance> findByStudentId(Long studentId);
     List<EventAttendance> findByEventIdIn(List<Long> eventIds);
+    boolean existsByEventAndStudent(Event event, Student student);
+
 
 
 }

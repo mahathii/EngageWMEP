@@ -3,36 +3,47 @@ package com.engagewmep.querystudentdata.controller;
 import com.engagewmep.querystudentdata.dto.RegisterDto;
 import com.engagewmep.querystudentdata.dto.LoginDto;
 import com.engagewmep.querystudentdata.model.UserEntity;
+import com.engagewmep.querystudentdata.model.VerificationToken;
 import com.engagewmep.querystudentdata.repository.UserRepository;
+import com.engagewmep.querystudentdata.service.VerificationTokenService;
+import com.engagewmep.querystudentdata.service.EmailService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
 
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
+@RequestMapping("/api/auth")
 public class UserController {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private VerificationTokenService tokenService;
 
+    @Autowired
+    private EmailService emailService;
+
+    // Login Endpoint
     @PostMapping(path = "/login", produces = "application/json")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
         boolean userExists = userRepository.existsByEmail(loginDto.getEmail());
+
         if (userExists) {
             Optional<UserEntity> optionalUser = userRepository.findByEmail(loginDto.getEmail());
             UserEntity user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
 
+            if (!user.getStatus().equals("ACTIVE")) {
+                return new ResponseEntity<>("Email not verified. Please check your inbox.", HttpStatus.UNAUTHORIZED);
+            }
+
             if (loginDto.getPassword().equals(user.getPassword())) {
-                return ResponseEntity.ok().body("Logged in successfully! ");
+                return ResponseEntity.ok().body("Logged in successfully!");
             } else {
                 return new ResponseEntity<>("Incorrect password", HttpStatus.UNAUTHORIZED);
             }
@@ -41,11 +52,10 @@ public class UserController {
         }
     }
 
-
+    // Register Endpoint
     @PostMapping("/register")
     @Transactional
     public ResponseEntity<?> register(@RequestBody RegisterDto registerDto) {
-
         if (userRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Email is already registered!", HttpStatus.BAD_REQUEST);
         }
@@ -54,9 +64,36 @@ public class UserController {
         user.setEmail(registerDto.getEmail());
         user.setUsername(registerDto.getUsername());
         user.setPassword(registerDto.getPassword());
+        user.setStatus("PENDING"); // User status is pending until email is verified
 
         userRepository.save(user);
 
-        return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
+        // Generate and send verification token
+        VerificationToken token = tokenService.createVerificationToken(user);
+        emailService.sendVerificationEmail(user.getEmail(), token.getToken());
+
+        return new ResponseEntity<>("User registered successfully! Please verify your email.", HttpStatus.CREATED);
+    }
+
+    // Email Verification Endpoint
+    @GetMapping("/verify")
+    public ResponseEntity<?> verifyEmail(@RequestParam("token") String token) {
+        Optional<VerificationToken> verificationToken = tokenService.findByToken(token);
+
+        if (verificationToken.isPresent()) {
+            UserEntity user = verificationToken.get().getUser();
+
+            // Check if token has expired (assuming we added an expiry date in the VerificationToken)
+            if (System.currentTimeMillis() > verificationToken.get().getExpiryDate()) {
+                return new ResponseEntity<>("Token expired. Please request a new verification email.", HttpStatus.BAD_REQUEST);
+            }
+
+            user.setStatus("ACTIVE");
+            userRepository.save(user);
+
+            return new ResponseEntity<>("Email verified successfully!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invalid or expired token", HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './AlumniPage.css'; // Import CSS for styling
+import './AlumniPage.css'; 
 
 const AlumniPage = () => {
   const [alumni, setAlumni] = useState([]);

@@ -1,10 +1,8 @@
 package com.engagewmep.querystudentdata.service;
 
-import com.engagewmep.querystudentdata.model.Event;
 import com.engagewmep.querystudentdata.model.EventAttendance;
 import com.engagewmep.querystudentdata.model.Student;
-import com.engagewmep.querystudentdata.repository.AttendanceRepository;
-import com.engagewmep.querystudentdata.repository.EventRepository;
+import com.engagewmep.querystudentdata.repository.EventAttendanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +12,11 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
     @Autowired
-    private AttendanceRepository attendanceRepository;
+    private EventAttendanceRepository eventAttendanceRepository;
 
     public List<Student> getStudentsByMultipleEvents(List<Long> eventIds) {
 
-        List<EventAttendance> attendances = attendanceRepository.findByEventIdIn(eventIds);
+        List<EventAttendance> attendances = eventAttendanceRepository.findByEventIdIn(eventIds);
 
         Set<Student> uniqueStudents = new HashSet<>();
         for (EventAttendance attendance : attendances) {
@@ -36,7 +34,7 @@ public class EventService {
             studentsAttendingAllEvents = List.of();
         } else {
             // Fetch attendance records for all selected events
-            List<EventAttendance> allAttendances = attendanceRepository.findByEventIdIn(eventIds);
+            List<EventAttendance> allAttendances = eventAttendanceRepository.findByEventIdIn(eventIds);
 
             // Group attendance records by student
             var attendanceByStudent = allAttendances.stream()
