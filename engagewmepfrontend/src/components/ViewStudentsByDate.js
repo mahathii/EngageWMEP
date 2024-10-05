@@ -55,9 +55,9 @@ const ViewStudentsByDate = () => {
         setFilteredStudents(results);
     }, [searchTerm, students]);
 
-    const onSelectedEventsChange = (selectedList) => {
-        setSelectedEventsForMultiselect(selectedList);
-    };
+    // const onSelectedEventsChange = (selectedList) => {
+    //     setSelectedEventsForMultiselect(selectedList);
+    // };
 
     const handleDisplayStudentsClick = () => {
         const selectedIds = selectedEventsForMultiselect.map((event) => event.id);
@@ -114,9 +114,9 @@ const ViewStudentsByDate = () => {
         URL.revokeObjectURL(url);
     };
 
-    const handleFetchStrategyChange = (e) => {
-        setFetchStrategy(e.target.value);
-    };
+    // const handleFetchStrategyChange = (e) => {
+    //     setFetchStrategy(e.target.value);
+    // };
 
     const handleColumnChange = (selectedList) => {
         const updatedSelectedColumns = {};

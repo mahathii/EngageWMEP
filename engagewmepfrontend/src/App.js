@@ -18,7 +18,7 @@ import StudentsEvents from "./components/StudentsEvents";
 import EventAttendancePage from "./components/EventAttendancePage";
 import VerifyEmail from "./components/VerifyEmail";
 
-const SessionTimeout = ({ timeout = 300000 }) => { // 10 minutes (600,000 ms) timeout
+const SessionTimeout = ({ timeout = 300000 }) => { // 5 minutes (300,000 ms) timeout
   const navigate = useNavigate();
   const logoutTimerRef = useRef(null); // useRef to keep the timer value consistent across renders
 
@@ -57,6 +57,29 @@ const SessionTimeout = ({ timeout = 300000 }) => { // 10 minutes (600,000 ms) ti
 };
 
 function App() {
+  useEffect(() => {
+    // When the app loads, store a flag in sessionStorage to indicate the page is active
+    sessionStorage.setItem('isRefreshed', 'true');
+
+    const handleBeforeUnload = (event) => {
+      // Check if sessionStorage still has the 'isRefreshed' flag
+      const isRefreshed = sessionStorage.getItem('isRefreshed');
+
+      // If the flag is missing, it means the user is closing the tab or window
+      if (!isRefreshed) {
+        localStorage.clear(); // Clear localStorage only on tab/window close
+      }
+    };
+
+    // Add the event listener for `beforeunload`
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <Router>
       <div className="App">
