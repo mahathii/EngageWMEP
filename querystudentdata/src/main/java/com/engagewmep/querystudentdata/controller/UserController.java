@@ -2,10 +2,12 @@ package com.engagewmep.querystudentdata.controller;
 
 import com.engagewmep.querystudentdata.dto.RegisterDto;
 import com.engagewmep.querystudentdata.dto.LoginDto;
+import com.engagewmep.querystudentdata.model.PasswordResetToken;
 import com.engagewmep.querystudentdata.model.UserEntity;
 import com.engagewmep.querystudentdata.model.VerificationToken;
 import com.engagewmep.querystudentdata.repository.UserRepository;
 import com.engagewmep.querystudentdata.service.VerificationTokenService;
+import com.engagewmep.querystudentdata.service.PasswordResetTokenService;
 import com.engagewmep.querystudentdata.service.EmailService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.Map;
+
 
 @RestController
 @CrossOrigin("http://localhost:3000")
@@ -28,6 +32,9 @@ public class UserController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PasswordResetTokenService passwordResetTokenService;
 
     // Login Endpoint
     @PostMapping(path = "/login", produces = "application/json")
@@ -74,6 +81,55 @@ public class UserController {
 
         return new ResponseEntity<>("User registered successfully! Please verify your email.", HttpStatus.CREATED);
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        Optional<UserEntity> userOptional = userRepository.findByEmail(email);
+
+        if (!userOptional.isPresent()) {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+
+        UserEntity user = userOptional.get();
+
+        // Create password reset token
+        PasswordResetToken token = passwordResetTokenService.createToken(user);
+
+        // Send password reset email
+        emailService.sendPasswordResetEmail(user.getEmail(), token.getToken());
+
+        return new ResponseEntity<>("Password reset email sent", HttpStatus.OK);
+    }
+
+    // Reset Password Endpoint
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+        String tokenStr = request.get("token");
+        String newPassword = request.get("password");
+
+        Optional<PasswordResetToken> tokenOptional = passwordResetTokenService.findByToken(tokenStr);
+
+        if (!tokenOptional.isPresent()) {
+            return new ResponseEntity<>("Invalid or expired token", HttpStatus.BAD_REQUEST);
+        }
+
+        PasswordResetToken token = tokenOptional.get();
+
+        if (token.isExpired()) {
+            return new ResponseEntity<>("Token has expired", HttpStatus.BAD_REQUEST);
+        }
+
+        UserEntity user = token.getUser();
+        user.setPassword(newPassword); // You should hash the password in a real application
+        userRepository.save(user);
+
+        // Invalidate the token after successful password reset
+        passwordResetTokenService.deleteToken(token);
+
+        return new ResponseEntity<>("Password reset successful", HttpStatus.OK);
+    }
+
 
     // Email Verification Endpoint
     @GetMapping("/verify")

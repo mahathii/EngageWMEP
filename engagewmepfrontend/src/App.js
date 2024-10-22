@@ -17,6 +17,8 @@ import ManageEvents from "./components/ManageEvents";
 import StudentsEvents from "./components/StudentsEvents";
 import EventAttendancePage from "./components/EventAttendancePage";
 import VerifyEmail from "./components/VerifyEmail";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 
 const SessionTimeout = ({ timeout = 300000 }) => { // 5 minutes (300,000 ms) timeout
   const navigate = useNavigate();
@@ -105,6 +107,8 @@ function App() {
           </Route>
           <Route path="/alumni-form" element={<AlumniForm />} />
           <Route path="/verify" element={<VerifyEmail />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/view-by-date" element={<PrivateRoute />}>
             <Route path="" element={<ViewStudentsByDate />} />
           </Route>

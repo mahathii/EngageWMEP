@@ -4,7 +4,7 @@
 .dashboard-container {
 	padding: 80px;
 	background-color: #cc0000;
-	font: Arial;
+	/* font: Arial; */
 	border-radius: 10px;
 }
 

@@ -7,9 +7,26 @@ const AlumniSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [alumni, setAlumni] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSearch = async () => {
+
+    if (!isValidEmail(searchTerm)) {
+      setErrorMessage("Please enter a valid email address.");
+      setAlumni(null);
+      setNotFound(false);
+      return; // Prevent the search if the email is invalid
+    }
+
+    setErrorMessage(""); 
+
     try {
       const response = await axios.get(`/api/alumni/search?term=${searchTerm}`);
       if (response.data) {
@@ -38,6 +55,10 @@ const AlumniSearch = () => {
           className="search-input-alumni-search"
         />
         <button className="search-button" onClick={handleSearch}>Search</button>
+
+        {/* Display error message if the email format is invalid */}
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+        
         {alumni ? (
           <div className="search-result">
             {alumni.firstName ? "You are already in the database" : null}

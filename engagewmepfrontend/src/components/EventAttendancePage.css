@@ -1,0 +1,88 @@
+/* Updated EventAttendancePage.css */
+
+/* Main container */
+.event-attendance-page {
+    padding: 20px;
+    min-height: 100vh; /* Extend to full page height */
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    background-color: #f4f4f4;
+}
+
+/* Heading */
+.event-attendance-heading {
+    margin-bottom: 20px; /* Space between the heading and the form */
+    font-size: 24px; /* Larger font size for visibility */
+    text-align: center; /* Center the heading */
+    color: #333; /* Dark color for contrast */
+}
+
+/* Form container */
+.event-attendance-form {
+    width: 100%; /* Full width */
+    max-width: 600px; /* Limit the width of the form */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    gap: 15px; /* Add space between form elements */
+}
+
+/* Label styling */
+.event-attendance-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    align-self: flex-start; /* Align labels to the left */
+}
+
+/* Input and select styling */
+.event-attendance-input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    background-color: white;
+}
+
+/* Upload Button styling */
+.upload-button {
+    height: 40px;
+    padding: 0px 20px;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #cc0000;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Ensure buttons are not affected by DatePicker */
+}
+
+.upload-button:hover {
+    background-color: white;
+    color: #cc0000;
+}
+
+
+.back-to-dashboard-student {
+    padding: 10px 20px;
+    background-color: #cc0000; /* Button background */
+    color: white; /* Button text color */
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 16px; /* Slightly larger font size */
+    font-weight: bold; /* Makes the text bold */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: background-color 0.3s ease;
+}
+
+.back-to-dashboard-student:hover {
+    background-color: white;
+    color: #cc0000; /* Inverts colors on hover */
+}
+

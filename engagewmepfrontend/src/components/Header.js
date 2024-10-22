@@ -16,7 +16,7 @@ const Header = () => {
 	const handleLogout = () => {
 		localStorage.removeItem("isLoggedIn");
 		setIsLoggedIn(false);
-		navigate("/");
+		navigate("/signup");
 	};
 
 	const handleHeadingClick = () => {

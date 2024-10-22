@@ -5,11 +5,13 @@
 	padding: 0;
 	box-sizing: border-box;
 	font-family: "Montserrat", sans-serif;
+	/* "Roboto", sans-serif; */
 }
 
 body {
-	background-color: #c9d6ff;
-	background: linear-gradient(to right, #e2e2e2, #c6d6ff);
+	background-color: #f4f4f4;
+	/* background-color: #c9d6ff; */
+	/* background: linear-gradient(to right, #e2e2e2, #c6d6ff); */
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -234,4 +236,8 @@ body {
 .error-message {
 	color: red;
 	margin-top: 10px;
+}
+
+#container .form-container .forgot-password-link {
+    margin: 5px;
 }

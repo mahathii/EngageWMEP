@@ -22,4 +22,17 @@ public class EmailService {
         email.setText(message);
         mailSender.send(email);
     }
+
+    public void sendPasswordResetEmail(String toEmail, String token) {
+        String resetUrl = "http://localhost:3000/reset-password/" + token; // Adjust the URL as needed
+        String subject = "Password Reset Request";
+        String body = "Click the link below to reset your password:\n" + resetUrl;
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject(subject);
+        message.setText(body);
+
+        mailSender.send(message);
+    }
 }

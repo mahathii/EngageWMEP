@@ -1,6 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './EventAttendancePage.css';
 
 const EventAttendancePage = () => {
   const [events, setEvents] = useState([]);
@@ -26,7 +28,7 @@ const EventAttendancePage = () => {
     formData.append('file', file);
 
     try {
-        const response = await axios.post(`/api/event-attendance/${selectedEvent}/upload`, formData, {
+      const response = await axios.post(`/api/event-attendance/${selectedEvent}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -34,19 +36,21 @@ const EventAttendancePage = () => {
       console.log('File uploaded successfully. Response data:', response.data);
       alert('File uploaded successfully');
     } catch (error) {
-        console.error('Error uploading file:', error.message);
-      }
+      console.error('Error uploading file:', error.message);
+    }
   };
 
   return (
-    <div>
-        <div className="back-buttons-container">
+    <div className="event-attendance-page">
+      <div className="back-buttons-container">
         <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
-    </div>
-      <h2>Upload Event Attendance</h2>
-      <form onSubmit={handleFileUpload}>
-        <label>Select Event:</label>
+      </div>
+      <h2 className="event-attendance-heading">Upload Event Attendance</h2>
+      <form className="event-attendance-form" onSubmit={handleFileUpload}>
+        <label htmlFor="event-select">Select Event:</label>
         <select
+          id="event-select"
+          className="event-attendance-input"
           value={selectedEvent}
           onChange={(e) => setSelectedEvent(e.target.value)}
           required
@@ -59,14 +63,17 @@ const EventAttendancePage = () => {
           ))}
         </select>
 
+        <label htmlFor="file-upload">Upload File:</label>
         <input
+          id="file-upload"
+          className="event-attendance-input"
           type="file"
           accept=".xlsx, .xls"
           onChange={(e) => setFile(e.target.files[0])}
           required
         />
 
-        <button type="submit">Upload Attendance</button>
+        <button type="submit" className="upload-button">Upload Attendance</button>
       </form>
     </div>
   );
