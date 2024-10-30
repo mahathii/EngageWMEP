@@ -55,10 +55,6 @@ const ViewStudentsByDate = () => {
         setFilteredStudents(results);
     }, [searchTerm, students]);
 
-    // const onSelectedEventsChange = (selectedList) => {
-    //     setSelectedEventsForMultiselect(selectedList);
-    // };
-
     const handleDisplayStudentsClick = () => {
         const selectedIds = selectedEventsForMultiselect.map((event) => event.id);
         fetchStudentsForSelectedEvents(
@@ -93,7 +89,8 @@ const ViewStudentsByDate = () => {
             });
     };
 
-    const handleDownloadClick = async () => {
+    // Function to download the students' data as a PDF
+    const downloadAsPDF = async () => {
         const documentComponent = (
             <MyDocument
                 students={students}
@@ -114,9 +111,29 @@ const ViewStudentsByDate = () => {
         URL.revokeObjectURL(url);
     };
 
-    // const handleFetchStrategyChange = (e) => {
-    //     setFetchStrategy(e.target.value);
-    // };
+    // Function to download the students' data as an Excel sheet
+    const downloadAsSheet = () => {
+        // Prepare data for CSV
+        const headers = Object.keys(selectedColumns).filter(column => selectedColumns[column]);
+        const rows = filteredStudents.map(student =>
+            headers.map(header => student[header] !== null ? student[header] : "N/A")
+        );
+
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += headers.join(",") + "\n"; // Add headers
+        rows.forEach(row => {
+            csvContent += row.join(",") + "\n"; // Add student data
+        });
+
+        // Create download link for CSV
+        const encodedUri = encodeURI(csvContent);
+        const a = window.document.createElement("a");
+        a.href = encodedUri;
+        a.download = `students_${new Date().toISOString()}.csv`;
+        window.document.body.appendChild(a);
+        a.click();
+        window.document.body.removeChild(a);
+    };
 
     const handleColumnChange = (selectedList) => {
         const updatedSelectedColumns = {};
@@ -204,9 +221,9 @@ const ViewStudentsByDate = () => {
     return (
         <div className="scrollable-table">
             <div className="back-buttons-container">
-        <Link to="/students" className="back-to-dashboard-student">Back</Link>
-        <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
-    </div>
+                <Link to="/students" className="back-to-dashboard-student">Back</Link>
+                <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
+            </div>
             <div className="content-container">
                 
                 <div className="datepicker-container">
@@ -235,7 +252,6 @@ const ViewStudentsByDate = () => {
                     </button>
                 </div>
                 
-
                 <div className="dropdown-container">
                     <Multiselect
                         options={formattedColumnOptions}
@@ -261,12 +277,20 @@ const ViewStudentsByDate = () => {
                         </button>
                     )}
                     {students.length > 0 && Object.keys(selectedColumns).some(column => selectedColumns[column]) && (
-                        <button
-                            className="view-students-button"
-                            onClick={handleDownloadClick}
-                        >
-                            Download
-                        </button>
+                        <div className="download-buttons-container">
+                            <button
+                                className="view-students-button"
+                                onClick={downloadAsPDF}
+                            >
+                                Download as PDF
+                            </button>
+                            <button
+                                className="view-students-button"
+                                onClick={downloadAsSheet}
+                            >
+                                Download as Sheet
+                            </button>
+                        </div>
                     )}
                 </div>
                 <div className="dropdown-container">

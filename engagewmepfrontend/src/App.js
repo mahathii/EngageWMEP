@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import React, { useEffect, useRef, useCallback } from "react";
 import "./App.css";
 import Header from "./components/Header";
@@ -88,7 +88,7 @@ function App() {
         <Header />
         <SessionTimeout /> {/* Add session timeout to monitor inactivity */}
         <Routes>
-          <Route path="/" element={<AlumniSearch />} />
+          <Route path="/" element={<Navigate to="/signup" />} />
           <Route path="/dashboard" element={<PrivateRoute />}>
             <Route path="" element={<Dashboard />} />
           </Route>
@@ -124,6 +124,7 @@ function App() {
           <Route path="/event-attendance" element={<PrivateRoute />}>
             <Route path="" element={<EventAttendancePage />} />
           </Route>
+          <Route path="/alumni-search" element={<AlumniSearch />} />
         </Routes>
       </div>
     </Router>

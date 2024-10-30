@@ -241,7 +241,7 @@ const LoginSignup = () => {
                 </div>
             </div>
             <div>
-                <button className="alumni-link" onClick={() => navigate("/")}>Are you an alumni? Navigate here</button>
+                <button className="alumni-link" onClick={() => navigate("/alumni-search")}>Are you an alumni? Navigate here</button>
             </div>
         </div>
     );

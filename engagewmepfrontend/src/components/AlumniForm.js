@@ -77,7 +77,7 @@ const AlumniForm = () => {
 
   return (
     <div className="alumni-form-page">
-      <button className="back-button" onClick={() => navigate("/")}>
+      <button className="back-button" onClick={() => navigate("/alumni-search")}>
         Back to Alumni Search
       </button>
       <div className="alumni-form-container">
