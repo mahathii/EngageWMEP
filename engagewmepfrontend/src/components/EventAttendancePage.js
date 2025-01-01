@@ -22,23 +22,61 @@ const EventAttendancePage = () => {
     fetchEvents();
   }, []);
 
+  // const handleFileUpload = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append('file', file);
+
+  //   try {
+  //     const response = await axios.post(`/api/event-attendance/${selectedEvent}/upload`, formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data'
+  //       }
+  //     });
+  //     console.log('File uploaded successfully. Response data:', response.data);
+  //     alert('File uploaded successfully');
+  //   } catch (error) {
+  //     console.error('Error uploading file:', error.message);
+  //   }
+  // };
+
   const handleFileUpload = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('file', file);
-
+  
     try {
-      const response = await axios.post(`/api/event-attendance/${selectedEvent}/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await axios.post(
+        `/api/event-attendance/${selectedEvent}/upload`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
-      });
-      console.log('File uploaded successfully. Response data:', response.data);
-      alert('File uploaded successfully');
+      );
+  
+      // Handle backend response messages
+      if (response.data.includes('already exists')) {
+        alert('Attendance already uploaded for this event.');
+      } else {
+        alert('File uploaded successfully.');
+      }
     } catch (error) {
       console.error('Error uploading file:', error.message);
+      if (error.response && error.response.data.includes('Incorrect Excel sheet format')) {
+        alert('Incorrect Excel sheet format. Please upload a valid file.');
+      } else if (error.response && error.response.data.includes('already exists')) {
+        alert('Attendance already uploaded for this event.');
+      } else if (error.response && error.response.data) {
+        alert(`Failed to upload the file. Error: ${error.response.data}`);
+      } else {
+        alert('Failed to upload the file. Please try again.');
+      }
     }
   };
+  
+  
 
   return (
     <div className="event-attendance-page">

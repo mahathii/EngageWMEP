@@ -5,12 +5,29 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.DateUtil;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExcelHelper {
+
+    public static List<String> getExcelHeaders(InputStream inputStream) throws IOException {
+        Workbook workbook = new XSSFWorkbook(inputStream); // Create a Workbook for .xlsx files
+        Sheet sheet = workbook.getSheetAt(0); // Get the first sheet
+        Row headerRow = sheet.getRow(0); // Assume the first row contains headers
+
+        List<String> headers = new ArrayList<>();
+        if (headerRow != null) {
+            for (Cell cell : headerRow) {
+                headers.add(cell.getStringCellValue().trim()); // Add header values to the list
+            }
+        }
+
+        workbook.close(); // Close the workbook to free resources
+        return headers;
+    }
 
     public static List<Student> parseExcelFile(InputStream is) throws Exception {
         List<Student> students = new ArrayList<>();
@@ -71,5 +88,6 @@ public class ExcelHelper {
         }
         return null;
     }
+
 }
 

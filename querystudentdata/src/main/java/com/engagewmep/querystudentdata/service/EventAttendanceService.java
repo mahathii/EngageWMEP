@@ -29,9 +29,13 @@ public class EventAttendanceService {
     @Autowired
     private EventRepository eventRepository;
 
+
+
     @Transactional
     public void processAttendanceFile(Long eventId, MultipartFile file) throws Exception {
         try {
+
+            validateExcelSheet(file);
             InputStream inputStream = file.getInputStream();
             List<Student> studentsFromExcel = ExcelHelper.parseExcelFile(inputStream);
 
@@ -57,6 +61,9 @@ public class EventAttendanceService {
                         System.out.println("New student added: " + existingStudent.getStudentId());
                     }
 
+                    if (eventAttendanceRepository.existsByEventAndStudent(event, existingStudent)) {
+                        throw new DataIntegrityViolationException("Attendance already exists for this event and student.");
+                    }
                     // Check if the attendance record already exists for this event and student
                     if (!eventAttendanceRepository.existsByEventAndStudent(event, existingStudent)) {
                         EventAttendance attendance = new EventAttendance();
@@ -78,6 +85,18 @@ public class EventAttendanceService {
         } catch (Exception e) {
             System.out.println("Error processing file: " + e.getMessage());
             throw new RuntimeException("Failed to process file: " + e.getMessage());
+        }
+    }
+
+    public void validateExcelSheet(MultipartFile file) throws Exception {
+        InputStream inputStream = file.getInputStream();
+        List<String> headers = ExcelHelper.getExcelHeaders(inputStream);
+
+        // Example: Expected headers
+        List<String> expectedHeaders = List.of("Student ID", "Name", "Email");
+
+        if (!headers.equals(expectedHeaders)) {
+            throw new RuntimeException("Incorrect Excel sheet format. Expected headers: " + expectedHeaders);
         }
     }
 }

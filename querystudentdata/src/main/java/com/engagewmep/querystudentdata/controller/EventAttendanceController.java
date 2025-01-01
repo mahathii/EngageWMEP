@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+
 
 @RestController
 @RequestMapping("/api/event-attendance")
@@ -20,10 +22,13 @@ public class EventAttendanceController {
         try {
             eventAttendanceService.processAttendanceFile(eventId, file);
             return ResponseEntity.ok("Attendance uploaded successfully.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to upload attendance: " + e.getMessage());
         }
     }
 }
+
 
