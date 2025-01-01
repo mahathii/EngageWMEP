@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.engagewmep</groupId>
-	<artifactId>querystudentdata</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>querystudentdata</name>
 	<description>A system for WMEP to query student data</description>
