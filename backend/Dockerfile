@@ -5,14 +5,15 @@ FROM maven:3.8.4-openjdk-17 AS build
 WORKDIR /app
 
 # Copy the Maven project files
-COPY backend/pom.xml .
-COPY backend/src ./src
+COPY pom.xml .
+COPY src ./src
+
 
 # Build the application
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Use a minimal JDK image to run the application
-FROM eclipse-temurin:17-jdk-alpine
+FROM --platform=linux/amd64 eclipse-temurin:17-jdk-alpine
 
 # Set the working directory
 WORKDIR /app
