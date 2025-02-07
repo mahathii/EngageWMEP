@@ -29,19 +29,15 @@ Ensure that the following software is installed on your system:
 
 1.  **Install dependencies:**
 
-    bash
+    ```bash
 
-    CopyEdit
-
-    `npm install`
+    npm install
 
 2.  **Start the development server:**
 
-    bash
+    ```bash
 
-    CopyEdit
-
-    `npm start`
+    npm start
 
     The application will be accessible at `http://localhost:3000`.
 
@@ -51,27 +47,21 @@ Ensure that the following software is installed on your system:
 
 1.  **Navigate to the backend directory:**
 
-    bash
+    ```bash
 
-    CopyEdit
-
-    `cd backend`
+    cd backend
 
 2.  **Build the project:**
 
-    bash
+    ```bash
 
-    CopyEdit
-
-    `./gradlew build`
+    ./gradlew build
 
 3.  **Run the application:**
 
-    bash
+    ```bash
 
-    CopyEdit
-
-    `./gradlew bootRun`
+    ./gradlew bootRun
 
     The backend server will start, but since it's under development, functionality may be limited.
 
@@ -84,27 +74,20 @@ We welcome contributions to EngageWMEP. To contribute:
 
 2.  **Create a new branch** for your feature or bug fix:
 
-    bash
-
-    CopyEdit
-
-    `git checkout -b feature-name`
+    ```bash
+    git checkout -b feature-name
 
 3.  **Commit your changes** with clear messages:
 
-    bash
+    ```bash
 
-    CopyEdit
-
-    `git commit -m "Add feature description"`
+    git commit -m "Add feature description"
 
 4.  **Push to your fork:**
 
-    bash
+    ```bash
 
-    CopyEdit
-
-    `git push origin feature-name`
+    git push origin feature-name
 
 5.  **Submit a pull request** detailing your changes.
 
