@@ -41,11 +41,7 @@ public class EventAttendanceService {
                     .orElseThrow(() -> new RuntimeException("Event not found"));
 
             for (Student student : studentsFromExcel) {
-                System.out.println("Processing Student ID: " + student.getStudentId());
-
-                // Check if student ID is null
                 if (student.getStudentId() != null) {
-                    // Check if student already exists by student ID
                     Optional<Student> existingStudentOpt = studentRepository.findByStudentId(student.getStudentId());
 
                     Student existingStudent;
@@ -116,17 +112,19 @@ public class EventAttendanceService {
     }
 
     @Transactional
-    public void deleteAttendance(Long eventId, Long studentId) {
+    public void deleteAttendance(Long eventId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
 
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+        List<EventAttendance> attendanceRecords = eventAttendanceRepository.findByEvent(event);
 
-        EventAttendance attendance = eventAttendanceRepository.findByEventAndStudent(event, student)
-                .orElseThrow(() -> new RuntimeException("Attendance record not found"));
+        if (attendanceRecords.isEmpty()) {
+            throw new RuntimeException("No attendance records found for this event.");
+        }
 
-        eventAttendanceRepository.delete(attendance);
+        eventAttendanceRepository.deleteAll(attendanceRecords);
+        System.out.println("All attendance records deleted for event ID: " + eventId);
     }
+
 
 }
