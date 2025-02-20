@@ -6,9 +6,9 @@ import com.engagewmep.backend.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface EventAttendanceRepository extends JpaRepository<EventAttendance, Long> {
 
@@ -20,8 +20,6 @@ public interface EventAttendanceRepository extends JpaRepository<EventAttendance
     List<EventAttendance> findByStudentId(Long studentId);
     List<EventAttendance> findByEventIdIn(List<Long> eventIds);
     boolean existsByEventAndStudent(Event event, Student student);
-
-
-
+    Optional<EventAttendance> findByEventAndStudent(Event event, Student student);
 }
 

@@ -86,3 +86,17 @@
     color: #cc0000; /* Inverts colors on hover */
 }
 
+.delete-button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}

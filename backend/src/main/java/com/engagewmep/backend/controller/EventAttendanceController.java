@@ -28,6 +28,21 @@ public class EventAttendanceController {
                     .body("Failed to upload attendance: " + e.getMessage());
         }
     }
+
+    @DeleteMapping("/{eventId}/delete/{studentId}")
+    public ResponseEntity<String> deleteAttendance(@PathVariable("eventId") Long eventId,
+                                                   @PathVariable("studentId") Long studentId) {
+        try {
+            eventAttendanceService.deleteAttendance(eventId, studentId);
+            return ResponseEntity.ok("Attendance record deleted successfully.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to delete attendance: " + e.getMessage());
+        }
+    }
+
 }
 
 

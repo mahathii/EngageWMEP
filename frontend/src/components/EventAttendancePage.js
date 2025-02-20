@@ -75,8 +75,36 @@ const EventAttendancePage = () => {
       }
     }
   };
-  
-  
+
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
+
+const fetchAttendance = async (eventId) => {
+  try {
+    const response = await axios.get(`/api/event-attendance/${eventId}`);
+    setAttendanceRecords(response.data);
+  } catch (error) {
+    console.error('Error fetching attendance records:', error);
+  }
+};
+
+useEffect(() => {
+  if (selectedEvent) {
+    fetchAttendance(selectedEvent);
+  }
+}, [selectedEvent]);
+
+const handleDeleteAttendance = async (studentId) => {
+  if (!window.confirm("Are you sure you want to delete this attendance record?")) return;
+
+  try {
+    await axios.delete(`/api/event-attendance/${selectedEvent}/delete/${studentId}`);
+    alert("Attendance record deleted successfully.");
+    fetchAttendance(selectedEvent); // Refresh records after deletion
+  } catch (error) {
+    console.error("Error deleting attendance:", error);
+    alert("Failed to delete attendance.");
+  }
+};
 
   return (
     <div className="event-attendance-page">
@@ -112,8 +140,23 @@ const EventAttendancePage = () => {
         />
 
         <button type="submit" className="upload-button">Upload Attendance</button>
+        {attendanceRecords.length > 0 && (
+        <div className="attendance-list">
+          <h3>Uploaded Attendance Records</h3>
+          <ul>
+            {attendanceRecords.map((record) => (
+              <li key={record.student.id}>
+                {record.student.firstName} {record.student.lastName} ({record.student.studentId})
+                <button className="delete-button" onClick={() => handleDeleteAttendance(record.student.id)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       </form>
+      
     </div>
+    
   );
 };
 

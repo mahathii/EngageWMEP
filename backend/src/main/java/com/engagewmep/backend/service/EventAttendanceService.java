@@ -29,8 +29,6 @@ public class EventAttendanceService {
     @Autowired
     private EventRepository eventRepository;
 
-
-
     @Transactional
     public void processAttendanceFile(Long eventId, MultipartFile file) throws Exception {
         try {
@@ -90,13 +88,45 @@ public class EventAttendanceService {
 
     public void validateExcelSheet(MultipartFile file) throws Exception {
         InputStream inputStream = file.getInputStream();
-        List<String> headers = ExcelHelper.getExcelHeaders(inputStream);
 
-        // Example: Expected headers
-        List<String> expectedHeaders = List.of("Student ID", "Name", "Email");
+        List<String> headers = ExcelHelper.getExcelHeaders(inputStream);
+        headers = headers.stream()
+                .map(String::trim)  // Trim whitespace from each header
+                .filter(h -> !h.isEmpty())  // Remove empty headers
+                .toList();
+
+        List<String> expectedHeaders = List.of(
+                "student: Student ID",
+                "student: Last Name",
+                "student: First Name",
+                "Student Profile: Degree Level",
+                "Student Profile: Graduation Date",
+                "Student Profile: Major",
+                "Student Profile: College",
+                "Student Profile: Admin Major",
+                "Student Profile: Email",
+                "Student Profile: Ethnicity"
+        );
+        System.out.println("Extracted Headers: " + headers);
+        System.out.println("Expected Headers: " + expectedHeaders);
 
         if (!headers.equals(expectedHeaders)) {
             throw new RuntimeException("Incorrect Excel sheet format. Expected headers: " + expectedHeaders);
         }
     }
+
+    @Transactional
+    public void deleteAttendance(Long eventId, Long studentId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+        EventAttendance attendance = eventAttendanceRepository.findByEventAndStudent(event, student)
+                .orElseThrow(() -> new RuntimeException("Attendance record not found"));
+
+        eventAttendanceRepository.delete(attendance);
+    }
+
 }

@@ -10,13 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.lang.reflect.Field;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
+import com.engagewmep.backend.model.EventAttendance;
+import com.engagewmep.backend.repository.EventAttendanceRepository;
 
 
 @RestController
@@ -31,6 +32,9 @@ public class EventController {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private EventAttendanceRepository eventAttendanceRepository;
 
     private final StudentService studentService;
 
@@ -130,11 +134,20 @@ public class EventController {
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         return eventRepository.findById(id)
                 .map(event -> {
+                    // Delete all attendance records related to this event
+                    List<EventAttendance> attendances = eventAttendanceRepository.findByEvent(event);
+                    if (!attendances.isEmpty()) {
+                        eventAttendanceRepository.deleteAll(attendances);
+                    }
+
+                    // Delete the event after removing related attendance records
                     eventRepository.delete(event);
-                    return ResponseEntity.ok().<Void>build(); // Correct return type
+                    return ResponseEntity.ok().<Void>build();
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
 
 }
 

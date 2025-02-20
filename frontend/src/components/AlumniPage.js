@@ -1,13 +1,11 @@
-// src/components/AlumniPage.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './AlumniPage.css'; 
+import './AlumniPage.css';
 
 const AlumniPage = () => {
   const [alumni, setAlumni] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // State for search term
-  const [filteredAlumni, setFilteredAlumni] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [filterValues, setFilterValues] = useState({});
   const [selectedFilters, setSelectedFilters] = useState({
     raceEthnicity: '',
@@ -20,87 +18,65 @@ const AlumniPage = () => {
     currentCity: '',
     currentState: '',
     currentZipCode: '',
-    mentoringOptIn: ''
+    mentoringOptIn: '',
   });
 
-  // useEffect(() => {
-  //   const fetchAlumni = async () => {
-  //     try {
-  //       const response = await axios.get('/api/alumni');
-  //       setAlumni(response.data);
-  //       setFilteredAlumni(response.data); // Initially set filtered alumni to all alumni
-  //     } catch (error) {
-  //       console.error('Error fetching alumni data', error);
-  //     }
-  //   };
-
-  //   fetchAlumni();
-  // }, []);
-
   useEffect(() => {
-    const fetchAlumni = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('/api/alumni');
-        setAlumni(response.data);
-        setFilteredAlumni(response.data);
+        const [alumniResponse, filtersResponse] = await Promise.all([
+          axios.get('/api/alumni'),
+          axios.get('/api/alumni/filters'),
+        ]);
+        setAlumni(alumniResponse.data);
+        setFilterValues(filtersResponse.data);
       } catch (error) {
-        console.error('Error fetching alumni data', error);
+        console.error('Error fetching data', error);
       }
     };
-
-    const fetchFilterValues = async () => {
-      try {
-        const response = await axios.get('/api/alumni/filters');
-        setFilterValues(response.data);
-      } catch (error) {
-        console.error('Error fetching filter values', error);
-      }
-    };
-
-    fetchAlumni();
-    fetchFilterValues();
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    const results = alumni.filter(alum =>
-      `${alum.firstName} ${alum.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredAlumni(results);
-  }, [searchTerm, alumni]);
+  // Filter alumni based on selected filters
+  const filteredAlumni = useMemo(() => {
+    return alumni.filter(alum => {
+      // Apply search filter
+      const nameMatch = `${alum.firstName} ${alum.lastName}`
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-  useEffect(() => {
-    let results = alumni;
+      // Apply selected filters
+      const filtersMatch = Object.keys(selectedFilters).every((key) =>
+        selectedFilters[key] ? alum[key] === selectedFilters[key] : true
+      );
 
-    Object.keys(selectedFilters).forEach((key) => {
-      if (selectedFilters[key]) {
-        results = results.filter(alum => alum[key] === selectedFilters[key]);
-      }
+      return nameMatch && filtersMatch;
     });
-
-    setFilteredAlumni(results);
-  }, [selectedFilters, alumni]);
+  }, [searchTerm, selectedFilters, alumni]);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setSelectedFilters(prevState => ({ ...prevState, [name]: value }));
+    setSelectedFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
     <div className="alumni-page">
       <div className="back-buttons-container">
-        <Link to="/dashboard" className="back-to-dashboard-student">Dashboard</Link>
-    </div>
+        <Link to="/dashboard" className="back-to-dashboard-student">
+          Dashboard
+        </Link>
+      </div>
       <h1 className="alumni-list-heading">Alumni List</h1>
       <h3 className="alumni-count">Total Alumni: {filteredAlumni.length}</h3>
       <input
         type="text"
         placeholder="Search by name"
         value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
+        onChange={(e) => setSearchTerm(e.target.value)}
         className="search-input-alumni"
       />
       <div className="filters">
-        {Object.keys(filterValues).map(key => (
+        {Object.keys(filterValues).map((key) => (
           <select
             key={key}
             name={key}
@@ -109,9 +85,12 @@ const AlumniPage = () => {
             className="filter-dropdown"
           >
             <option value="">{`Select ${key}`}</option>
-            {filterValues[key].map(value => (
-              <option key={value} value={value}>{value}</option>
-            ))}
+            {Array.isArray(filterValues[key]) &&
+              filterValues[key].map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
           </select>
         ))}
       </div>
