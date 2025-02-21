@@ -49,6 +49,12 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
+    @GetMapping("/past-events")
+    public ResponseEntity<List<Event>> getPastEvents() {
+        List<Event> pastEvents = eventService.getPastEvents();
+        return ResponseEntity.ok(pastEvents);
+    }
+
     @GetMapping("/{studentId}/events")
     public ResponseEntity<List<Event>> getEventsByStudentId(@PathVariable String studentId) {
         List<Event> events = studentService.getEventsByStudentStudentId(studentId);
@@ -150,4 +156,3 @@ public class EventController {
 
 
 }
-

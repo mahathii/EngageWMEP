@@ -13,7 +13,7 @@ const EventAttendancePage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('/events');
+        const response = await axios.get('/events/past-events');
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events', error);
