@@ -1,54 +1,30 @@
-name: Backend CI Pipeline
+name: CI Build
 
 on:
   push:
     branches:
       - main
-      - dev
   pull_request:
     branches:
       - main
-      - dev
 
 jobs:
-  test-backend:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Ensures repo is checked out
 
-      - name: Set Up JDK 17
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
 
-      - name: Set Up MySQL Database
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql root password: root
-          mysql database: EngageWMEP
-          mysql user: testuser
-          mysql password: testpassword
+      - name: Change to backend directory
+        run: cd backend  # If your pom.xml is inside backend/
 
-      - name: Cache Maven Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
-
-      - name: Build & Run Tests
-        run: |
-          mvn clean test
-
-      - name: Generate Code Coverage Report
-        run: |
-          mvn jacoco:report
-
-      - name: Upload Code Coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./target/site/jacoco/jacoco.xml
+      - name: Build and Test with Maven
+        run: mvn clean test
+        working-directory: backend  # Ensure it's in the correct directory
