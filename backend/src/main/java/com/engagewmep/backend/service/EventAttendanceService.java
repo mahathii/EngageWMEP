@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,6 +125,19 @@ public class EventAttendanceService {
 
         eventAttendanceRepository.deleteAll(attendanceRecords);
         System.out.println("All attendance records deleted for event ID: " + eventId);
+    }
+
+    public List<EventAttendance> getEventAttendance(Long eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+
+        List<EventAttendance> attendanceRecords = eventAttendanceRepository.findByEvent(event);
+
+        if (attendanceRecords.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return attendanceRecords;
     }
 
 

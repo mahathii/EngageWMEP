@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.stream.Collectors;
 
 import java.util.List;
 
@@ -57,10 +58,7 @@ public class EventAttendanceController {
     @GetMapping("/{eventId}")
     public ResponseEntity<?> getEventAttendance(@PathVariable Long eventId) {
         try {
-            Event event = eventRepository.findById(eventId)
-                    .orElseThrow(() -> new RuntimeException("Event not found"));
-
-            List<EventAttendance> attendanceRecords = eventAttendanceRepository.findByEvent(event);
+            List<EventAttendance> attendanceRecords = eventAttendanceService.getEventAttendance(eventId);
 
             if (attendanceRecords.isEmpty()) {
                 return ResponseEntity.ok("No attendance uploaded yet.");
@@ -71,6 +69,8 @@ public class EventAttendanceController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
 
 
 }
