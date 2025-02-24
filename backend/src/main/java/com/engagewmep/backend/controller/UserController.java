@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -36,30 +37,48 @@ public class UserController {
     @Autowired
     private PasswordResetTokenService passwordResetTokenService;
 
-    // Login Endpoint
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @PostMapping(path = "/login", produces = "application/json")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        boolean userExists = userRepository.existsByEmail(loginDto.getEmail());
-
-        if (userExists) {
-            Optional<UserEntity> optionalUser = userRepository.findByEmail(loginDto.getEmail());
-            UserEntity user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
-
-            if (!user.getStatus().equals("ACTIVE")) {
-                return new ResponseEntity<>("Email not verified. Please check your inbox.", HttpStatus.UNAUTHORIZED);
-            }
-
-            if (loginDto.getPassword().equals(user.getPassword())) {
-                return ResponseEntity.ok().body("Logged in successfully!");
-            } else {
-                return new ResponseEntity<>("Incorrect password", HttpStatus.UNAUTHORIZED);
-            }
-        } else {
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(loginDto.getEmail());
+        if (!optionalUser.isPresent()) {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
         }
+
+        UserEntity user = optionalUser.get();
+
+        if (!user.getStatus().equals("ACTIVE")) {
+            return new ResponseEntity<>("Email not verified. Please check your inbox.", HttpStatus.UNAUTHORIZED);
+        }
+
+        boolean passwordMatches = false;
+        String storedPassword = user.getPassword();
+
+        // Check if the password is already hashed (BCrypt hashes typically start with "$2a$" or "$2b$")
+        if (storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2b$")) {
+            passwordMatches = passwordEncoder.matches(loginDto.getPassword(), storedPassword);
+        } else {
+            // Password stored in plain text: perform a direct comparison
+            if (loginDto.getPassword().equals(storedPassword)) {
+                passwordMatches = true;
+                // Migrate the password: hash it and update the record
+                user.setPassword(passwordEncoder.encode(loginDto.getPassword()));
+                userRepository.save(user);
+            }
+        }
+
+        if (!passwordMatches) {
+            return new ResponseEntity<>("Incorrect password", HttpStatus.UNAUTHORIZED);
+        }
+
+        return ResponseEntity.ok().body("Logged in successfully!");
     }
 
-    // Register Endpoint
+
+
+
     @PostMapping("/register")
     @Transactional
     public ResponseEntity<?> register(@RequestBody RegisterDto registerDto) {
@@ -70,7 +89,8 @@ public class UserController {
         UserEntity user = new UserEntity();
         user.setEmail(registerDto.getEmail());
         user.setUsername(registerDto.getUsername());
-        user.setPassword(registerDto.getPassword());
+        // Hash the password
+        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setStatus("PENDING"); // User status is pending until email is verified
 
         userRepository.save(user);
@@ -102,7 +122,6 @@ public class UserController {
         return new ResponseEntity<>("Password reset email sent", HttpStatus.OK);
     }
 
-    // Reset Password Endpoint
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
         String tokenStr = request.get("token");
@@ -121,7 +140,8 @@ public class UserController {
         }
 
         UserEntity user = token.getUser();
-        user.setPassword(newPassword); // You should hash the password in a real application
+        // Hash the new password before saving
+        user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
         // Invalidate the token after successful password reset
@@ -129,6 +149,7 @@ public class UserController {
 
         return new ResponseEntity<>("Password reset successful", HttpStatus.OK);
     }
+
 
 
     // Email Verification Endpoint
